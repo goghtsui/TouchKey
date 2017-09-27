@@ -41,6 +41,9 @@ public class SettingsObserver implements Observer {
                 case SettingsProvider.CODE_ACCESSIBILITY:
                     onClickObserverListener.onAccessibilityClicked();
                     break;
+                case SettingsProvider.CODE_DEVICEADMIN:
+                    onClickObserverListener.onDeviceAdminClicked();
+                    break;
                 default:
                     break;
             }
@@ -59,6 +62,8 @@ public class SettingsObserver implements Observer {
         void onOverlayClicked();
 
         void onAccessibilityClicked();
+
+        void onDeviceAdminClicked();
     }
 
     private static final class SingleHolder {

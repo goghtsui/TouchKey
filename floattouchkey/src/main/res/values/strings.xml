@@ -70,6 +70,7 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="toast_touch_key_tips">请开启按键辅助功能</string>
 
     <!-- custom values-->
     <!-- root_category_title  -->
@@ -99,23 +100,41 @@
     <string name="pref_root_category_lockscreen_title">锁屏功能</string>
     <string name="pref_root_category_lockscreen_summary_off">锁屏功能需要开启设备管理权限</string>
     <string name="pref_root_category_lockscreen_summary_on">已授权</string>
+    <string name="pref_root_category_lockscreen_tips">需要在设置中手动关闭</string>
 
     <!-- category_settings -->
+    <string name="pref_root_category_settings_position_locker">category_settings_position_locker_key</string>
+    <string name="pref_root_category_settings_position_title">位置锁定</string>
+    <string name="pref_root_category_settings_position_summary">固定在当前位置</string>
+    <string name="pref_root_category_settings_position_summary_off">随手指拖动</string>
+
     <string name="pref_root_category_settings_edge_key">category_settings_auto_edge_key</string>
     <string name="pref_root_category_settings_edge_title">自动贴边</string>
+    <string name="pref_root_category_settings_edge_summary">靠近屏幕边缘时贴合在屏幕边缘</string>
+
+    <string name="pref_root_category_settings_sound_key">category_settings_sound_key</string>
+    <string name="pref_root_category_settings_sound_title">声音</string>
+    <string name="pref_root_category_settings_sound_summary_on">已开启</string>
+    <string name="pref_root_category_settings_sound_summary_off">已关闭</string>
+
+    <string name="pref_root_category_settings_vibrate_key">category_settings_vibrate_key</string>
+    <string name="pref_root_category_settings_vibrate_title">震动</string>
+    <string name="pref_root_category_settings_vibrate_summary_on">已开启</string>
+    <string name="pref_root_category_settings_vibrate_summary_off">已关闭</string>
 
     <string name="pref_root_category_settings_ime_key">category_settings_ime_key</string>
     <string name="pref_root_category_settings_ime_title">输入法重置位置</string>
     <string name="pref_root_category_settings_ime_on">在弹出输入法之后重置按钮的位置</string>
-    <string name="pref_root_category_settings_ime_off">默认情况下按钮会遮盖输入法窗口</string>
+    <string name="pref_root_category_settings_ime_off">默认情况下按钮会遮盖输入法</string>
 
-    <string name="pref_root_category_settings_sound_key">category_settings_sound_key</string>
-    <string name="pref_root_category_settings_sound_title">声音</string>
+    <string name="pref_root_category_settings_ime_hidden_key">category_settings_ime_hidden_key</string>
+    <string name="pref_root_category_settings_ime_hidden_title">输入法隐藏</string>
+    <string name="pref_root_category_settings_ime_hidden_on">输入法打开时隐藏按钮</string>
+    <string name="pref_root_category_settings_ime_hidden_off">默认情况下按钮会遮盖输入法</string>
 
-    <string name="pref_root_category_settings_vibrate_key">category_settings_vibrate_key</string>
-    <string name="pref_root_category_settings_vibrate_title">震动</string>
-
-    <string name="pref_root_category_settings_position_key">category_settings_position_key</string>
-    <string name="pref_root_category_settings_position_title">位置锁定</string>
+    <!-- 按键设置 -->
+    <string name="pref_root_category_settings_gesture_key">category_settings_gesture_key</string>
+    <string name="pref_root_category_settings_gesture_title">按键与手势</string>
+    <string name="pref_root_category_settings_gesture_summary">设置对应的按键及手势</string>
 
 </resources>

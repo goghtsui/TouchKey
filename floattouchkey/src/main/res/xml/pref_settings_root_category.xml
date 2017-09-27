@@ -2,36 +2,39 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 开关 -->
-    <PreferenceCategory
-        android:title="@string/pref_root_category_title_switcher">
+    <PreferenceCategory android:title="@string/pref_root_category_title_switcher">
 
         <com.gogh.floattouchkey.preference.OverlayPreference
             android:icon="@drawable/ic_pref_float_switcher"
             android:key="@string/pref_root_category_switcher_overlay_key"
-            android:summaryOn="@string/pref_root_category_switcher_overlay_summary_on"
             android:summaryOff="@string/pref_root_category_switcher_overlay_summary_off"
-            android:title="@string/pref_root_category_switcher_overlay_title"/>
+            android:summaryOn="@string/pref_root_category_switcher_overlay_summary_on"
+            android:title="@string/pref_root_category_switcher_overlay_title" />
 
         <com.gogh.floattouchkey.preference.AccessibilityPreference
             android:icon="@drawable/ic_pref_accessibility"
             android:key="@string/pref_root_category_accessibility_key"
             android:summaryOff="@string/pref_root_category_accessibility_summary_off"
             android:summaryOn="@string/pref_root_category_accessibility_summary_on"
-            android:title="@string/pref_root_category_accessibility_title"/>
+            android:title="@string/pref_root_category_accessibility_title" />
 
-        <SwitchPreference
+        <com.gogh.floattouchkey.preference.AdminLockPreference
             android:icon="@drawable/ic_pref_screen_lock"
             android:key="@string/pref_root_category_lockscreen_key"
+            android:dependency="@string/pref_root_category_switcher_overlay_key"
             android:summary="@string/pref_root_category_lockscreen_summary_off"
             android:summaryOff="@string/pref_root_category_lockscreen_summary_off"
             android:summaryOn="@string/pref_root_category_lockscreen_summary_on"
-            android:title="@string/pref_root_category_lockscreen_title"/>
+            android:title="@string/pref_root_category_lockscreen_title" />
+
+        <Preference android:layout="@layout/pref_divider_layout" />
 
     </PreferenceCategory>
 
     <!-- 广告 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_advertisement">
-        <Preference android:layout="@layout/pref_advertisement_layout"/>
+        <Preference android:layout="@layout/pref_advertisement_layout" />
+        <Preference android:layout="@layout/pref_divider_layout" />
     </PreferenceCategory>
 
     <!-- 设置 -->
@@ -39,27 +42,90 @@
         android:dependency="@string/pref_root_category_switcher_overlay_key"
         android:title="@string/pref_root_category_title_settings">
 
+        <com.gogh.floattouchkey.preference.LockPositionPreference
+            android:icon="@drawable/ic_pref_lock_position"
+            android:key="@string/pref_root_category_settings_position_locker"
+            android:summary="@string/pref_root_category_settings_position_summary_off"
+            android:summaryOff="@string/pref_root_category_settings_position_summary_off"
+            android:summaryOn="@string/pref_root_category_settings_position_summary"
+            android:title="@string/pref_root_category_settings_position_title" />
+
+        <com.gogh.floattouchkey.preference.AutoEdgePreference
+            android:icon="@drawable/ic_pref_edge"
+            android:key="@string/pref_root_category_settings_edge_key"
+            android:summary="@string/pref_root_category_settings_position_summary_off"
+            android:summaryOff="@string/pref_root_category_settings_position_summary_off"
+            android:summaryOn="@string/pref_root_category_settings_edge_summary"
+            android:title="@string/pref_root_category_settings_edge_title" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_volume"
+            android:key="@string/pref_root_category_settings_sound_key"
+            android:summary="@string/pref_root_category_settings_sound_summary_off"
+            android:summaryOff="@string/pref_root_category_settings_sound_summary_off"
+            android:summaryOn="@string/pref_root_category_settings_sound_summary_on"
+            android:title="@string/pref_root_category_settings_sound_title" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_vibration"
+            android:key="@string/pref_root_category_settings_vibrate_key"
+            android:summary="@string/pref_root_category_settings_vibrate_summary_off"
+            android:summaryOff="@string/pref_root_category_settings_vibrate_summary_off"
+            android:summaryOn="@string/pref_root_category_settings_vibrate_summary_on"
+            android:title="@string/pref_root_category_settings_vibrate_title" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_reset_position"
+            android:key="@string/pref_root_category_settings_ime_key"
+            android:summary="@string/pref_root_category_settings_ime_off"
+            android:summaryOff="@string/pref_root_category_settings_ime_off"
+            android:summaryOn="@string/pref_root_category_settings_ime_on"
+            android:title="@string/pref_root_category_settings_ime_title" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_ime_hidden"
+            android:key="@string/pref_root_category_settings_ime_hidden_key"
+            android:summary="@string/pref_root_category_settings_ime_off"
+            android:summaryOff="@string/pref_root_category_settings_ime_hidden_off"
+            android:summaryOn="@string/pref_root_category_settings_ime_hidden_on"
+            android:title="@string/pref_root_category_settings_ime_hidden_title" />
+
+        <Preference android:layout="@layout/pref_divider_layout" />
+
     </PreferenceCategory>
 
     <!-- 样式 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_style">
+
+        <Preference android:layout="@layout/pref_divider_layout" />
 
     </PreferenceCategory>
 
     <!-- 按键  -->
     <PreferenceCategory android:title="@string/pref_root_category_title_key">
 
+        <PreferenceScreen
+            android:icon="@drawable/ic_pref_reset_position"
+            android:key="@string/pref_root_category_settings_gesture_key"
+            android:summary="@string/pref_root_category_settings_gesture_summary"
+            android:title="@string/pref_root_category_settings_gesture_title">
+            <intent android:action="com.gogh.intent.action.GESTURE" />
+        </PreferenceScreen>
+
+        <Preference android:layout="@layout/pref_divider_layout" />
     </PreferenceCategory>
 
     <!-- 扩展 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_extra">
+
+        <Preference android:layout="@layout/pref_divider_layout" />
 
     </PreferenceCategory>
 
     <!-- 关于 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_about">
 
-
+        <Preference android:layout="@layout/pref_divider_layout" />
     </PreferenceCategory>
 
 </PreferenceScreen>

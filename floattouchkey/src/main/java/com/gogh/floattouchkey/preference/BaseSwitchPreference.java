@@ -8,7 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
-import com.gogh.floattouchkey.observer.ActivityResultObserver;
+import com.gogh.floattouchkey.observable.ActivityResultObservable;
+import com.gogh.floattouchkey.provider.SettingsProvider;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
@@ -18,31 +22,46 @@ import com.gogh.floattouchkey.observer.ActivityResultObserver;
  * <li> 高晓峰 on 9/22/2017 do fisrt create. </li>
  */
 
-public class BaseSwitchPreference extends SwitchPreference implements ActivityResultObserver.OnActivityResult,
-        Preference.OnPreferenceChangeListener {
+public class BaseSwitchPreference extends SwitchPreference implements Preference.OnPreferenceChangeListener, Observer {
 
     public BaseSwitchPreference(Context context) {
         super(context);
+//        initStatus();
         setOnPreferenceChangeListener(this);
-        ActivityResultObserver.get().subscribe(this);
+        ActivityResultObservable.get().addObserver(this);
     }
 
     public BaseSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+//        initStatus();
         setOnPreferenceChangeListener(this);
-        ActivityResultObserver.get().subscribe(this);
+        ActivityResultObservable.get().addObserver(this);
     }
 
     public BaseSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+//        initStatus();
         setOnPreferenceChangeListener(this);
-        ActivityResultObserver.get().subscribe(this);
+        ActivityResultObservable.get().addObserver(this);
     }
 
     public BaseSwitchPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
+//        initStatus();
         setOnPreferenceChangeListener(this);
-        ActivityResultObserver.get().subscribe(this);
+        ActivityResultObservable.get().addObserver(this);
+    }
+
+    /**
+     * 初始化设置的状态
+     *
+     * @param
+     * @ChangeLog: <li> 高晓峰 on 9/26/2017 </li>
+     * @author 高晓峰
+     * @date 9/26/2017
+     */
+    protected void initStatus() {
+
     }
 
     @Override
@@ -53,6 +72,7 @@ public class BaseSwitchPreference extends SwitchPreference implements ActivityRe
         if (!isEnabled()) {
             setEnabledStateOnViews(view, isEnabled());
         }
+        initStatus();
     }
 
     private void setEnabledStateOnViews(View v, boolean enabled) {
@@ -82,20 +102,65 @@ public class BaseSwitchPreference extends SwitchPreference implements ActivityRe
      */
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        return onPreferenceChanged(preference, newValue);
+        return onPreferenceClicked(preference, newValue);
     }
 
-    protected boolean onPreferenceChanged(Preference preference, Object newValue) {
+    /**
+     * 点击事件
+     *
+     * @param preference 设置项
+     * @param newValue   新值
+     * @return
+     */
+    protected boolean onPreferenceClicked(Preference preference, Object newValue) {
         return false;
     }
 
+
+    /**
+     * This method is called whenever the observed object is changed. An
+     * application calls an <tt>Observable</tt> object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param o   the observable object.
+     * @param arg an argument passed to the <code>notifyObservers</code>
+     */
     @Override
-    public void onActivityResult(int code) {
-        onFragmentResult(code);
+    public void update(Observable o, Object arg) {
+        int code = Integer.valueOf(String.valueOf(arg));
+        if (code == SettingsProvider.CODE_CHECK_RESET) {
+            onFragmentResume();
+        } else {
+            onFragmentResult(code);
+        }
     }
 
-    protected void onFragmentResult(int code) {
-        // need to impl
+    /**
+     * 在设置之后回到当前页面刷新
+     */
+    protected void onFragmentResume() {
+        // need to imp
     }
 
+    /**
+     * 在设置之后回到当前页面的回调
+     *
+     * @param requestCode 对应的设置项
+     */
+    protected void onFragmentResult(int requestCode) {
+        // need to imp
+    }
+
+    /**
+     * 重置设置的状态
+     *
+     * @param
+     * @ChangeLog: <li> 高晓峰 on 9/26/2017 </li>
+     * @author 高晓峰
+     * @date 9/26/2017
+     */
+    protected void setCheckStatus() {
+        // need to imp
+    }
 }

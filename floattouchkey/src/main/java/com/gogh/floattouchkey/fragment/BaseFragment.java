@@ -15,6 +15,10 @@ import android.support.annotation.Nullable;
 
 public class BaseFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    protected static final int STATUS_ONCREATE = 0x00001001;
+    protected static final int STATUS_ONRESULT = 0x00001010;
+    protected static final int STATUS_ONPAUSE = 0x00001011;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

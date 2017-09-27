@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/X-Touch.iml" filepath="$PROJECT_DIR$/X-Touch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TouchKey.iml" filepath="$PROJECT_DIR$/TouchKey.iml" />
       <module fileurl="file://$PROJECT_DIR$/XTouch.iml" filepath="$PROJECT_DIR$/XTouch.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/floattouchkey/floattouchkey.iml" filepath="$PROJECT_DIR$/floattouchkey/floattouchkey.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tiles/tiles.iml" filepath="$PROJECT_DIR$/tiles/tiles.iml" />
       <module fileurl="file://$PROJECT_DIR$/tiles/tiles.iml" filepath="$PROJECT_DIR$/tiles/tiles.iml" />
     </modules>
   </component>

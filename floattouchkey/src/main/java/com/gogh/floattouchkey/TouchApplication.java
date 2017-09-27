@@ -1,11 +1,13 @@
 package com.gogh.floattouchkey;
 
 import android.app.Application;
+import android.content.Intent;
 
-import com.gogh.floattouchkey.observable.ActivityResultObservable;
 import com.gogh.floattouchkey.observable.SettingsObservable;
-import com.gogh.floattouchkey.observer.ActivityResultObserver;
 import com.gogh.floattouchkey.observer.SettingsObserver;
+import com.gogh.floattouchkey.provider.ImePackageProvider;
+import com.gogh.floattouchkey.provider.SensorProvider;
+import com.gogh.floattouchkey.service.TouchAccessibilityService;
 
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
@@ -20,8 +22,11 @@ public class TouchApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // FIXME: 9/27/2017 缺少针对launcher的特殊处理
+        startService(new Intent(this, TouchAccessibilityService.class));
+        SensorProvider.get().init(this);
         SettingsObservable.get().addObserver(SettingsObserver.get());
-        ActivityResultObservable.get().addObserver(ActivityResultObserver.get());
+        ImePackageProvider.initAsync(this);
     }
 
 }

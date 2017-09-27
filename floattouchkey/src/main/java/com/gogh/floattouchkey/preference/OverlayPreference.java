@@ -5,11 +5,11 @@ import android.os.Build;
 import android.preference.Preference;
 import android.provider.Settings;
 import android.util.AttributeSet;
-import android.widget.Toast;
 
 import com.gogh.floattouchkey.R;
 import com.gogh.floattouchkey.observable.SettingsObservable;
 import com.gogh.floattouchkey.provider.SettingsProvider;
+import com.gogh.floattouchkey.widget.FloatTouchView;
 
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
@@ -40,7 +40,12 @@ public class OverlayPreference extends BaseSwitchPreference {
     }
 
     @Override
-    protected boolean onPreferenceChanged(Preference preference, Object newValue) {
+    protected void initStatus() {
+        setCheckStatus();
+    }
+
+    @Override
+    protected boolean onPreferenceClicked(Preference preference, Object newValue) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setEnabled(true);
             SettingsObservable.get().onChanged(SettingsProvider.CODE_OVERLAY);
@@ -49,22 +54,43 @@ public class OverlayPreference extends BaseSwitchPreference {
             setSummary(getContext().getResources().getString(R.string.pref_root_category_switcher_overlay_summary_on));
             setEnabled(false);
         }
-        return super.onPreferenceChanged(preference, newValue);
+        return super.onPreferenceClicked(preference, newValue);
     }
 
     @Override
-    protected void onFragmentResult(int code) {
-        super.onFragmentResult(code);
-        if (code == SettingsProvider.CODE_OVERLAY) {
+    protected void onFragmentResume() {
+        setCheckStatus();
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode) {
+        if (requestCode == SettingsProvider.CODE_OVERLAY) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Settings.canDrawOverlays(getContext())) {
-                    Toast.makeText(getContext(), "权限已授予", Toast.LENGTH_SHORT).show();
                     setChecked(true);
+                    FloatTouchView.get().display(getContext());
                 } else {
-                    Toast.makeText(getContext(), "权限被拒绝", Toast.LENGTH_SHORT).show();
                     setChecked(false);
+                    FloatTouchView.get().removeView();
                 }
             }
+        }
+    }
+
+    @Override
+    protected void setCheckStatus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.canDrawOverlays(getContext())) {
+                setChecked(true);
+                FloatTouchView.get().display(getContext());
+            } else {
+                setChecked(false);
+                FloatTouchView.get().removeView();
+            }
+        } else {
+            FloatTouchView.get().display(getContext());
+            setEnabled(false);
+            setChecked(true);
         }
     }
 

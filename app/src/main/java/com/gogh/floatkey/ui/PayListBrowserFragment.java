@@ -53,10 +53,10 @@ public class PayListBrowserFragment extends Fragment {
 
     public void setupView(View root) {
 
-        swipeRefreshLayout = root.findViewById(R.id.swipe);
+        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipe);
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.polluted_waves));
 
-        recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -135,9 +135,9 @@ public class PayListBrowserFragment extends Fragment {
 
         TwoLinesViewHolder(final View itemView) {
             super(itemView);
-            title = itemView.findViewById(android.R.id.title);
-            description = itemView.findViewById(android.R.id.text1);
-            thumbnail = itemView.findViewById(R.id.avatar);
+            title = (TextView) itemView.findViewById(android.R.id.title);
+            description = (TextView) itemView.findViewById(android.R.id.text1);
+            thumbnail = (ImageView) itemView.findViewById(R.id.avatar);
             thumbnail.setImageResource(R.drawable.ic_header_avatar);
         }
     }

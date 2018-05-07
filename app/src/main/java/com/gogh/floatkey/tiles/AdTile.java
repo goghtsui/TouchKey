@@ -33,7 +33,7 @@ public class AdTile extends QuickTile {
         this.tileView = new TileView(context) {
             @Override
             protected void onViewInflated(View view) {
-                ViewGroup container = view.findViewById(R.id.container);
+                ViewGroup container = (ViewGroup) view.findViewById(R.id.container);
                 initAd(context, container);
             }
 

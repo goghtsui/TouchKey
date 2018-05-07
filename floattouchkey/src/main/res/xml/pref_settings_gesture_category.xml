@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 按键 -->
+    <PreferenceCategory android:title="@string/pref_gesture_category_touckkey">
+
+        <com.gogh.floattouchkey.preference.list.SingleClickPreference
+            android:defaultValue="@string/pref_gesture_category_single_click_default_value"
+            android:dialogTitle="@string/pref_gesture_category_dialog_title"
+            android:entries="@array/KeyEvent"
+            android:entryValues="@array/KeyEventValues"
+            android:icon="@drawable/ic_pref_single_click"
+            android:key="@string/pref_gesture_category_single_click_key"
+            android:summary="@string/pref_gesture_category_single_click_summary"
+            android:title="@string/pref_gesture_category_single_click_title"/>
+
+        <com.gogh.floattouchkey.preference.list.DoubleClickPreference
+            android:defaultValue="@string/pref_gesture_category_double_click_default_value"
+            android:dialogTitle="@string/pref_gesture_category_dialog_title"
+            android:entries="@array/KeyEvent"
+            android:entryValues="@array/KeyEventValues"
+            android:icon="@drawable/ic_double_click"
+            android:key="@string/pref_gesture_category_double_click_key"
+            android:summary="@string/pref_gesture_category_double_click_summary"
+            android:title="@string/pref_gesture_category_double_click_title"/>
+
+        <Preference android:layout="@layout/pref_divider_layout"/>
+
+    </PreferenceCategory>
+
+    <!-- 手势 -->
+    <PreferenceCategory android:title="@string/pref_gesture_category_gesture">
+
+        <com.gogh.floattouchkey.preference.list.SwipToLeftPreference
+            android:defaultValue="@string/pref_gesture_category_swipe_left_default_value"
+            android:dialogTitle="@string/pref_gesture_category_dialog_title"
+            android:entries="@array/KeyEvent"
+            android:entryValues="@array/KeyEventValues"
+            android:icon="@drawable/ic_pref_swipe_left"
+            android:key="@string/pref_gesture_category_swipe_left_key"
+            android:summary="@string/pref_gesture_category_swipe_left_summary"
+            android:title="@string/pref_gesture_category_swipe_left_title"/>
+
+        <com.gogh.floattouchkey.preference.list.SwipToUpPreference
+            android:defaultValue="@string/pref_gesture_category_swipe_up_default_value"
+            android:dialogTitle="@string/pref_gesture_category_dialog_title"
+            android:entries="@array/KeyEvent"
+            android:entryValues="@array/KeyEventValues"
+            android:icon="@drawable/ic_pref_swipe_up"
+            android:key="@string/pref_gesture_category_swipe_up_key"
+            android:summary="@string/pref_gesture_category_swipe_up_summary"
+            android:title="@string/pref_gesture_category_swipe_up_title"/>
+
+        <com.gogh.floattouchkey.preference.list.SwipToRightPreference
+            android:defaultValue="@string/pref_gesture_category_double_right_default_value"
+            android:dialogTitle="@string/pref_gesture_category_dialog_title"
+            android:entries="@array/KeyEvent"
+            android:entryValues="@array/KeyEventValues"
+            android:icon="@drawable/ic_pref_swipe_right"
+            android:key="@string/pref_gesture_category_swipe_right_key"
+            android:summary="@string/pref_gesture_category_double_right_summary"
+            android:title="@string/pref_gesture_category_double_right_title"/>
+
+        <com.gogh.floattouchkey.preference.list.SwipToDownPreference
+            android:defaultValue="@string/pref_gesture_category_swipe_down_default_value"
+            android:dialogTitle="@string/pref_gesture_category_dialog_title"
+            android:entries="@array/KeyEvent"
+            android:entryValues="@array/KeyEventValues"
+            android:icon="@drawable/ic_pref_swipe_down"
+            android:key="@string/pref_gesture_category_swipe_down_key"
+            android:summary="@string/pref_gesture_category_swipe_down_summary"
+            android:title="@string/pref_gesture_category_swipe_down_title"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

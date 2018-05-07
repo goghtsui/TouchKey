@@ -312,7 +312,7 @@ public class FloatView extends FrameLayout {
         mContainerView = rootView.findViewById(R.id.container);
         mContainerView.setAlpha(mAlpha);
 
-        mImageView = rootView.findViewById(R.id.image);
+        mImageView = (ImageView) rootView.findViewById(R.id.image);
         applyImage();
 
         getWindowVisibleDisplayFrame(mRect);

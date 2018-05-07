@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--按键与手势-->
+    <string-array name="KeyEvent">
+        <item>无</item>
+        <item>返回上一级</item>
+        <item>返回主页</item>
+        <item>锁屏</item>
+        <item>下拉通知栏</item>
+        <item>最近任务</item>
+        <item>切换至上一个应用</item>
+        <item>打开应用快捷方式</item>
+        <item>截屏</item>
+        <item>打开快捷菜单面板</item>
+        <item>打开快捷应用面板</item>
+        <item>关闭当前应用</item>
+    </string-array>
+    <string-array name="KeyEventValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+
+</resources>

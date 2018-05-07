@@ -28,7 +28,7 @@ public class VerticalSplashAdActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashad);
-        mContainer = findViewById(R.id.splash_ad_container);
+        mContainer = (ViewGroup) findViewById(R.id.splash_ad_container);
         VerticalSplashAdActivityPermissionRequester.showAdChecked(this);
     }
 

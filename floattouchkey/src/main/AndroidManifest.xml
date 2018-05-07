@@ -14,6 +14,12 @@
     <!-- 弹窗 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!--ad-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
     <application
         android:name="TouchApplication"
         android:allowBackup="true"
@@ -41,6 +47,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.ShareActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Translucent.Theme.Dialog">
+            <intent-filter>
+                <action android:name="com.gogh.intent.action.SHAREAPP"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.gogh.floattouchkey.service.TouchAccessibilityService"
             android:enabled="true"
@@ -52,7 +68,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.accessibilityservice"
-                android:resource="@xml/accesibility"/>
+                android:resource="@xml/accesibility" />
         </service>
 
         <receiver
@@ -66,6 +82,15 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </receiver>
+
+        <!--ad-->
+        <activity
+            android:name="com.xiaomi.ad.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+
 
     </application>
 

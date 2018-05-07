@@ -4,21 +4,22 @@
     <!-- 开关 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_switcher">
 
-        <com.gogh.floattouchkey.preference.OverlayPreference
+        <com.gogh.floattouchkey.preference.switcher.OverlayPreference
             android:icon="@drawable/ic_pref_float_switcher"
             android:key="@string/pref_root_category_switcher_overlay_key"
             android:summaryOff="@string/pref_root_category_switcher_overlay_summary_off"
             android:summaryOn="@string/pref_root_category_switcher_overlay_summary_on"
             android:title="@string/pref_root_category_switcher_overlay_title" />
 
-        <com.gogh.floattouchkey.preference.AccessibilityPreference
+        <com.gogh.floattouchkey.preference.switcher.AccessibilityPreference
             android:icon="@drawable/ic_pref_accessibility"
             android:key="@string/pref_root_category_accessibility_key"
+            android:dependency="@string/pref_root_category_switcher_overlay_key"
             android:summaryOff="@string/pref_root_category_accessibility_summary_off"
             android:summaryOn="@string/pref_root_category_accessibility_summary_on"
             android:title="@string/pref_root_category_accessibility_title" />
 
-        <com.gogh.floattouchkey.preference.AdminLockPreference
+        <com.gogh.floattouchkey.preference.switcher.AdminLockPreference
             android:icon="@drawable/ic_pref_screen_lock"
             android:key="@string/pref_root_category_lockscreen_key"
             android:dependency="@string/pref_root_category_switcher_overlay_key"
@@ -42,7 +43,7 @@
         android:dependency="@string/pref_root_category_switcher_overlay_key"
         android:title="@string/pref_root_category_title_settings">
 
-        <com.gogh.floattouchkey.preference.LockPositionPreference
+        <com.gogh.floattouchkey.preference.switcher.LockPositionPreference
             android:icon="@drawable/ic_pref_lock_position"
             android:key="@string/pref_root_category_settings_position_locker"
             android:summary="@string/pref_root_category_settings_position_summary_off"
@@ -50,7 +51,7 @@
             android:summaryOn="@string/pref_root_category_settings_position_summary"
             android:title="@string/pref_root_category_settings_position_title" />
 
-        <com.gogh.floattouchkey.preference.AutoEdgePreference
+        <com.gogh.floattouchkey.preference.switcher.AutoEdgePreference
             android:icon="@drawable/ic_pref_edge"
             android:key="@string/pref_root_category_settings_edge_key"
             android:summary="@string/pref_root_category_settings_position_summary_off"
@@ -74,15 +75,16 @@
             android:summaryOn="@string/pref_root_category_settings_vibrate_summary_on"
             android:title="@string/pref_root_category_settings_vibrate_title" />
 
-        <SwitchPreference
+        <!-- 针对关闭输入法窗口的判断不准确-->
+        <!--<SwitchPreference
             android:icon="@drawable/ic_pref_reset_position"
             android:key="@string/pref_root_category_settings_ime_key"
             android:summary="@string/pref_root_category_settings_ime_off"
             android:summaryOff="@string/pref_root_category_settings_ime_off"
             android:summaryOn="@string/pref_root_category_settings_ime_on"
-            android:title="@string/pref_root_category_settings_ime_title" />
+            android:title="@string/pref_root_category_settings_ime_title" />-->
 
-        <SwitchPreference
+        <com.gogh.floattouchkey.preference.switcher.WindowTypePreference
             android:icon="@drawable/ic_pref_ime_hidden"
             android:key="@string/pref_root_category_settings_ime_hidden_key"
             android:summary="@string/pref_root_category_settings_ime_off"
@@ -95,17 +97,60 @@
     </PreferenceCategory>
 
     <!-- 样式 -->
-    <PreferenceCategory android:title="@string/pref_root_category_title_style">
+    <PreferenceCategory
+        android:dependency="@string/pref_root_category_switcher_overlay_key"
+        android:title="@string/pref_root_category_title_style">
+
+        <!--呼吸效果-->
+        <com.gogh.floattouchkey.preference.switcher.BreathPreference
+            android:icon="@drawable/ic_pref_breath"
+            android:key="@string/pref_root_category_style_breath_key"
+            android:summary="@string/pref_root_category_style_breath_summary_off"
+            android:summaryOff="@string/pref_root_category_style_breath_summary_off"
+            android:summaryOn="@string/pref_root_category_style_breath_summary_on"
+            android:title="@string/pref_root_category_style_breath_title"/>
+
+        <!--按钮旋转-->
+        <com.gogh.floattouchkey.preference.switcher.RotationPreference
+            android:icon="@drawable/ic_pref_rotaiton2"
+            android:key="@string/pref_root_category_style_rotate_key"
+            android:summary="@string/pref_root_category_style_rotate_summary_off"
+            android:summaryOff="@string/pref_root_category_style_rotate_summary_off"
+            android:summaryOn="@string/pref_root_category_style_rotate_summary_on"
+            android:title="@string/pref_root_category_style_rotate_title"/>
+
+        <!--透明度调节-->
+        <com.gogh.floattouchkey.preference.seekbar.AlphaPreference
+            android:icon="@drawable/ic_pref_tranparent"
+            android:key="@string/pref_root_category_style_alpha_key"
+            android:title="@string/pref_root_category_style_alpha_title"/>
+
+        <!--缩放调节-->
+        <com.gogh.floattouchkey.preference.seekbar.ScalePreference
+            android:icon="@drawable/ic_pref_scale"
+            android:key="@string/pref_root_category_style_scale_key"
+            android:title="@string/pref_root_category_style_scale_title"/>
+
+        <!--潜水半透-->
+        <com.gogh.floattouchkey.preference.switcher.AutoAlphaPreference
+            android:icon="@drawable/ic_half_transparent"
+            android:key="@string/pref_root_category_style_auto_alpha_key"
+            android:summary="@string/pref_root_category_style_auto_alpha_summary_off"
+            android:summaryOff="@string/pref_root_category_style_auto_alpha_summary_off"
+            android:summaryOn="@string/pref_root_category_style_auto_alpha_summary_on"
+            android:title="@string/pref_root_category_style_auto_alpha_title"/>
 
         <Preference android:layout="@layout/pref_divider_layout" />
 
     </PreferenceCategory>
 
     <!-- 按键  -->
-    <PreferenceCategory android:title="@string/pref_root_category_title_key">
+    <PreferenceCategory
+        android:dependency="@string/pref_root_category_switcher_overlay_key"
+        android:title="@string/pref_root_category_title_key">
 
         <PreferenceScreen
-            android:icon="@drawable/ic_pref_reset_position"
+            android:icon="@drawable/ic_pref_gesture"
             android:key="@string/pref_root_category_settings_gesture_key"
             android:summary="@string/pref_root_category_settings_gesture_summary"
             android:title="@string/pref_root_category_settings_gesture_title">
@@ -115,8 +160,18 @@
         <Preference android:layout="@layout/pref_divider_layout" />
     </PreferenceCategory>
 
-    <!-- 扩展 -->
-    <PreferenceCategory android:title="@string/pref_root_category_title_extra">
+    <!-- 图片 -->
+    <PreferenceCategory
+        android:dependency="@string/pref_root_category_switcher_overlay_key"
+        android:title="@string/pref_root_category_title_extra">
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_pref_photo"
+            android:key="@string/pref_root_category_settings_gesture_key"
+            android:summary="@string/pref_root_category_settings_gesture_summary"
+            android:title="@string/pref_root_category_settings_gesture_title">
+            <intent android:action="com.gogh.intent.action.GESTURE"/>
+        </PreferenceScreen>
 
         <Preference android:layout="@layout/pref_divider_layout" />
 
@@ -125,7 +180,32 @@
     <!-- 关于 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_about">
 
-        <Preference android:layout="@layout/pref_divider_layout" />
+        <!--分享-->
+        <Preference
+            android:icon="@drawable/ic_pref_share"
+            android:key="@string/settting_prefrences_about_share_key"
+            android:summary="@string/settting_prefrences_about_share_summary"
+            android:title="@string/settting_prefrences_about_share_title">
+            <intent
+                android:action="com.gogh.intent.action.SHAREAPP"/>
+        </Preference>
+
+        <!--版本-->
+        <Preference
+            android:icon="@drawable/ic_pref_version"
+            android:summary="@string/settting_prefrences_about_version_code"
+            android:title="@string/settting_prefrences_about_version_title">
+        </Preference>
+
+        <!--作者-->
+        <Preference
+            android:icon="@drawable/ic_pref_author"
+            android:summary="@string/settting_prefrences_about_author_summary"
+            android:title="@string/settting_prefrences_about_author_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/settting_prefrences_about_author_summary"/>
+        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>

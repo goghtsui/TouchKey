@@ -1,76 +1,9 @@
 <resources>
     <string name="app_name">FloatTouchKey</string>
 
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact based on your message history</string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value"/>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-    <string name="toast_touch_key_tips">请开启按键辅助功能</string>
+    <string name="toast_touch_key_tips">话说你得开启按键辅助功能</string>
+    <string name="toast_touch_key_scale_tips">看不到了亲… 你还肿么用？</string>
+    <string name="toast_touch_key_activate_tips">亲，锁屏功能需要开启设备管理权限</string>
 
     <!-- custom values-->
     <!-- root_category_title  -->
@@ -79,28 +12,29 @@
     <string name="pref_root_category_title_settings">设置</string>
     <string name="pref_root_category_title_style">样式</string>
     <string name="pref_root_category_title_key">按键</string>
-    <string name="pref_root_category_title_extra">扩展</string>
+    <string name="pref_root_category_title_extra">图片</string>
     <string name="pref_root_category_title_about">关于</string>
 
     <!-- category_overlay -->
     <string name="pref_root_category_switcher_overlay_key">category_float_key</string>
     <string name="pref_root_category_switcher_overlay_data">package:com.gogh.floatkey</string>
     <string name="pref_root_category_switcher_overlay_title">悬浮按钮</string>
-    <string name="pref_root_category_switcher_overlay_summary_on">已授权</string>
-    <string name="pref_root_category_switcher_overlay_summary_off">使用悬浮按钮需要开启弹窗权限</string>
+    <string name="pref_root_category_switcher_overlay_summary_on">我相信你已经看到悬浮按钮了</string>
+    <string name="pref_root_category_switcher_overlay_summary_off">使用悬浮按钮需要开启悬浮窗权限</string>
 
     <!-- category_accesibility -->
     <string name="pref_root_category_accessibility_key">category_accessibility_key</string>
     <string name="pref_root_category_accessibility_title">按键辅助</string>
     <string name="pref_root_category_accessibility_summary_off">按键功能需要开启辅助功能权限</string>
-    <string name="pref_root_category_accessibility_summary_on">已授权</string>
+    <string name="pref_root_category_accessibility_summary_on">你可以尽情点击了</string>
 
     <!-- category_lockscreen -->
     <string name="pref_root_category_lockscreen_key">category_lockscreen_key</string>
     <string name="pref_root_category_lockscreen_title">锁屏功能</string>
     <string name="pref_root_category_lockscreen_summary_off">锁屏功能需要开启设备管理权限</string>
-    <string name="pref_root_category_lockscreen_summary_on">已授权</string>
+    <string name="pref_root_category_lockscreen_summary_on">OK，锁屏试试</string>
     <string name="pref_root_category_lockscreen_tips">需要在设置中手动关闭</string>
+    <string name="pref_root_category_lockscreen_root_key">category_lockscreen_root_key</string>
 
     <!-- category_settings -->
     <string name="pref_root_category_settings_position_locker">category_settings_position_locker_key</string>
@@ -114,12 +48,12 @@
 
     <string name="pref_root_category_settings_sound_key">category_settings_sound_key</string>
     <string name="pref_root_category_settings_sound_title">声音</string>
-    <string name="pref_root_category_settings_sound_summary_on">已开启</string>
-    <string name="pref_root_category_settings_sound_summary_off">已关闭</string>
+    <string name="pref_root_category_settings_sound_summary_on">啪啪啪有木有</string>
+    <string name="pref_root_category_settings_sound_summary_off">沉默无语</string>
 
     <string name="pref_root_category_settings_vibrate_key">category_settings_vibrate_key</string>
     <string name="pref_root_category_settings_vibrate_title">震动</string>
-    <string name="pref_root_category_settings_vibrate_summary_on">已开启</string>
+    <string name="pref_root_category_settings_vibrate_summary_on">地震模式已开启</string>
     <string name="pref_root_category_settings_vibrate_summary_off">已关闭</string>
 
     <string name="pref_root_category_settings_ime_key">category_settings_ime_key</string>
@@ -128,13 +62,85 @@
     <string name="pref_root_category_settings_ime_off">默认情况下按钮会遮盖输入法</string>
 
     <string name="pref_root_category_settings_ime_hidden_key">category_settings_ime_hidden_key</string>
-    <string name="pref_root_category_settings_ime_hidden_title">输入法隐藏</string>
-    <string name="pref_root_category_settings_ime_hidden_on">输入法打开时隐藏按钮</string>
+    <string name="pref_root_category_settings_ime_hidden_title">输入法覆盖</string>
+    <string name="pref_root_category_settings_ime_hidden_on">输入法覆盖按钮</string>
     <string name="pref_root_category_settings_ime_hidden_off">默认情况下按钮会遮盖输入法</string>
+
+    <!-- category_settings -->
+    <string name="pref_root_category_style_breath_key">category_style_breath_key</string>
+    <string name="pref_root_category_style_breath_title">心跳</string>
+    <string name="pref_root_category_style_breath_summary_on">一起深呼吸</string>
+    <string name="pref_root_category_style_breath_summary_off">憋气模式</string>
+
+    <string name="pref_root_category_style_rotate_key">category_style_rotate_key</string>
+    <string name="pref_root_category_style_rotate_title">旋转</string>
+    <string name="pref_root_category_style_rotate_summary_on">根本停不下来</string>
+    <string name="pref_root_category_style_rotate_summary_off">等待起飞</string>
+
+    <string name="pref_root_category_style_alpha_key">category_style_alpha_key</string>
+    <string name="pref_root_category_style_alpha_title">透明度调节</string>
+
+    <string name="pref_root_category_style_scale_key">category_style_scale_key</string>
+    <string name="pref_root_category_style_scale_title">缩放调节</string>
+
+    <string name="pref_root_category_style_auto_alpha_key">category_style_auto_alpha_key</string>
+    <string name="pref_root_category_style_auto_alpha_title">潜水状态</string>
+    <string name="pref_root_category_style_auto_alpha_summary_on">在无操作3秒后进入半隐身状态</string>
+    <string name="pref_root_category_style_auto_alpha_summary_off">还是老样子</string>
+
+    <string name="pref_root_category_style_picture_key">category_style_picture_key</string>
+    <string name="pref_root_category_style_picture_title">设置按钮图片</string>
 
     <!-- 按键设置 -->
     <string name="pref_root_category_settings_gesture_key">category_settings_gesture_key</string>
     <string name="pref_root_category_settings_gesture_title">按键与手势</string>
-    <string name="pref_root_category_settings_gesture_summary">设置对应的按键及手势</string>
+    <string name="pref_root_category_settings_gesture_summary">设置手势操控下的响应事件</string>
+
+    <!--关于-->
+    <string name="action_share_to">分享到</string>
+    <string name="settting_prefrences_about_share_key">about_share</string>
+    <string name="settting_prefrences_about_share_title">推荐给朋友</string>
+    <string name="settting_prefrences_about_share_summary">好东西一定要分享哦</string>
+
+    <string name="settting_prefrences_about_version_title">版本信息</string>
+    <string name="settting_prefrences_about_version_code">当前版本：1.4.6.0929\n系统按键替代解决方案，并提供扩展按键</string>
+
+    <string name="settting_prefrences_about_author_title">关于作者</string>
+    <string name="settting_prefrences_about_author_summary">http://www.xiaofeng.site</string>
+
+    <!--按键手势-->
+    <string name="pref_gesture_category_touckkey">按键</string>
+    <string name="pref_gesture_category_gesture">手势</string>
+    <string name="pref_gesture_category_dialog_title">功能选择</string>
+
+    <string name="pref_gesture_category_single_click_key">gesture_single_click_key</string>
+    <string name="pref_gesture_category_single_click_title">单击</string>
+    <string name="pref_gesture_category_single_click_summary">返回上一级</string>
+    <string name="pref_gesture_category_single_click_default_value">1</string>
+
+    <string name="pref_gesture_category_double_click_key">gesture_double_click_key</string>
+    <string name="pref_gesture_category_double_click_title">双击</string>
+    <string name="pref_gesture_category_double_click_summary">返回主页</string>
+    <string name="pref_gesture_category_double_click_default_value">2</string>
+
+    <string name="pref_gesture_category_swipe_left_key">gesture_swipe_left_key</string>
+    <string name="pref_gesture_category_swipe_left_title">左滑</string>
+    <string name="pref_gesture_category_swipe_left_summary">关闭当前应用</string>
+    <string name="pref_gesture_category_swipe_left_default_value">11</string>
+
+    <string name="pref_gesture_category_swipe_up_key">gesture_swipe_up_key</string>
+    <string name="pref_gesture_category_swipe_up_title">上滑</string>
+    <string name="pref_gesture_category_swipe_up_summary">最近任务</string>
+    <string name="pref_gesture_category_swipe_up_default_value">5</string>
+
+    <string name="pref_gesture_category_swipe_right_key">gesture_swipe_right_key</string>
+    <string name="pref_gesture_category_double_right_title">右滑</string>
+    <string name="pref_gesture_category_double_right_summary">切换至上一个应用</string>
+    <string name="pref_gesture_category_double_right_default_value">6</string>
+
+    <string name="pref_gesture_category_swipe_down_key">gesture_swipe_down_key</string>
+    <string name="pref_gesture_category_swipe_down_title">下滑</string>
+    <string name="pref_gesture_category_swipe_down_summary">下拉通知栏</string>
+    <string name="pref_gesture_category_swipe_down_default_value">4</string>
 
 </resources>

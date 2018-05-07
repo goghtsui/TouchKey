@@ -1,7 +1,6 @@
 package dev.nick.tiles.tile;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
@@ -22,9 +21,11 @@ public class EmptyActionTileView extends TileView {
     }
 
     protected @ColorInt int getActionTextColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getResources().getColor(android.R.color.holo_blue_light, getContext().getTheme());
-        }
-        return getResources().getColor(android.R.color.holo_blue_light);
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+        } else {
+            return getResources().getColor(android.R.color.holo_blue_light);
+        }*/
+        return getResources().getColor(android.R.color.holo_blue_light, getContext().getTheme());
     }
 }

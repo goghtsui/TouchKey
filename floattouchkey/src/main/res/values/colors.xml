@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorDvider">#d6d5d5</color>
+
+    <!--circel color-->
+    <color name="colorDarkgray">#6cc3c3c3</color>
+    <color name="colorHalfBlack">#32141414</color>
+    <color name="colorlargeBlack">#56141414</color>
 </resources>

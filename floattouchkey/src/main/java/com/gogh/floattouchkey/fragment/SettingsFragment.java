@@ -15,6 +15,7 @@ import com.gogh.floattouchkey.observer.SettingsObserver;
 import com.gogh.floattouchkey.provider.SettingsProvider;
 import com.gogh.floattouchkey.receiver.AdminLockReceiver;
 import com.gogh.floattouchkey.uitls.Logger;
+import com.gogh.floattouchkey.widget.FloatTouchView;
 
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
@@ -41,7 +42,7 @@ public class SettingsFragment extends BaseFragment implements SettingsObserver.O
         super.onActivityCreated(savedInstanceState);
         SettingsObserver.get().observe(this);
         mStatus = STATUS_ONCREATE;
-        SettingsProvider.get().init(getActivity(), getView(), getPreferenceManager().getSharedPreferences());
+        SettingsProvider.get().init(getActivity(), getPreferenceManager().getSharedPreferences());
     }
 
     @Override
@@ -52,6 +53,7 @@ public class SettingsFragment extends BaseFragment implements SettingsObserver.O
             Logger.d(TAG, "onResume reset check status.");
             ActivityResultObservable.get().onChanged(SettingsProvider.CODE_CHECK_RESET);
         }
+        FloatTouchView.get().setDetachStatus(false);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class SettingsFragment extends BaseFragment implements SettingsObserver.O
 
     @Override
     public void onAccessibilityClicked() {
-        Intent intent = new Intent("android.settings.ACCESSIBILITY_SETTINGS");
+        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivityForResult(intent, SettingsProvider.CODE_ACCESSIBILITY);
     }
 
@@ -99,6 +101,7 @@ public class SettingsFragment extends BaseFragment implements SettingsObserver.O
         super.onPause();
         Logger.d(TAG, "onPause");
         mStatus = STATUS_ONPAUSE;
+        FloatTouchView.get().setDetachStatus(true);
     }
 
     @Override

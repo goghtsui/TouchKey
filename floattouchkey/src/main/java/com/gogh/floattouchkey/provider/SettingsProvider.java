@@ -25,6 +25,10 @@ public class SettingsProvider implements Switcher {
     public static final int CODE_LOCKPOINT = 103;
     public static final int CODE_AUTOEDGE = 104;
     public static final int CODE_IME_REPOSITION= 105;
+    public static final int CODE_AUTOALPHA = 106;
+    public static final int CODE_ROTATION = 107;
+    public static final int CODE_BREATH = 108;
+    public static final int CODE_WINDOW_TYPE = 109;
 
     private View view;
     private Context context;
@@ -34,15 +38,36 @@ public class SettingsProvider implements Switcher {
         return SingleHolder.HOLDER;
     }
 
-    public void init(Context context, View view, SharedPreferences preferences) {
-        this.view = view;
+    public void init(Context context, SharedPreferences preferences) {
         this.context = context;
         this.mPreferences = preferences;
+        EventProvider.get().init(context, preferences);
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 
     @Override
     public View getView() {
         return view;
+    }
+
+    @Override
+    public boolean isActivateAdmin() {
+        return mPreferences.getBoolean(context.getResources().getString(R.string.pref_root_category_lockscreen_key), false);
+    }
+
+    @Override
+    public boolean isRoot() {
+        return mPreferences.getBoolean(context.getResources().getString(R.string.pref_root_category_lockscreen_root_key), false);
+    }
+
+    @Override
+    public void setRootStatus(boolean isRoot) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(context.getResources().getString(R.string.pref_root_category_lockscreen_root_key), isRoot);
+        editor.commit();
     }
 
     @Override
@@ -73,6 +98,26 @@ public class SettingsProvider implements Switcher {
     @Override
     public boolean isHiddenInIme() {
         return mPreferences.getBoolean(context.getResources().getString(R.string.pref_root_category_settings_ime_hidden_key), false);
+    }
+
+    @Override
+    public int getAlpha() {
+        return mPreferences.getInt(context.getResources().getString(R.string.pref_root_category_style_alpha_key), 100);
+    }
+
+    @Override
+    public boolean isRotate() {
+        return mPreferences.getBoolean(context.getResources().getString(R.string.pref_root_category_style_rotate_key), false);
+    }
+
+    @Override
+    public boolean isBreath() {
+        return mPreferences.getBoolean(context.getResources().getString(R.string.pref_root_category_style_breath_key), false);
+    }
+
+    @Override
+    public boolean isAutoAlpha() {
+        return mPreferences.getBoolean(context.getResources().getString(R.string.pref_root_category_style_auto_alpha_key), false);
     }
 
     private static final class SingleHolder {

@@ -14,6 +14,12 @@ public interface Switcher {
 
     View getView();
 
+    boolean isActivateAdmin();
+
+    void setRootStatus(boolean isRoot);
+
+    boolean isRoot();
+
     boolean isLockPosition();
 
     boolean isAutoEdge();
@@ -25,4 +31,13 @@ public interface Switcher {
     boolean isRepositionInIme();
 
     boolean isHiddenInIme();
+    //
+
+    int getAlpha();
+
+    boolean isRotate();
+
+    boolean isBreath();
+
+    boolean isAutoAlpha();
 }

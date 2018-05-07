@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?android:attr/selectableItemBackground"
+              android:gravity="center_vertical"
+              android:minHeight="?android:attr/listPreferredItemHeight"
+              android:paddingEnd="?android:attr/scrollbarSize">
+
+    <ImageView
+        android:id="@+id/pref_seekbar_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/pref_seekbar_icon_margin_left"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/pref_seekbar_height"
+        android:layout_marginEnd="@dimen/pref_seekbar_margin_end"
+        android:layout_marginStart="@dimen/pref_seekbar_margin_start"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/pref_seelbar_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pref_seelbar_summary_margin_left"
+            android:layout_marginTop="@dimen/pref_seelbar_summary_margin_top"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:maxLines="1"
+            android:text="滑动以设置"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
+
+        <SeekBar
+            android:id="@+id/pref_seekbar_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pref_seelbar_summary"
+            android:layout_marginTop="@dimen/pref_seekbar_margin_end"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/pref_seekbar_value"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/pref_seelbar_summary_margin_top"
+        android:gravity="center_vertical"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="?attr/colorAccent"/>
+
+</LinearLayout>

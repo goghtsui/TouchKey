@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.gogh.floattouchkey.provider.SettingsProvider;
 import com.gogh.floattouchkey.receiver.IMEPackageReceiver;
 
 /**
@@ -21,6 +22,7 @@ public class BaseAppCompatActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsProvider.get().setView(getWindow().getDecorView());
         imePackageReceiver = new IMEPackageReceiver();
         imePackageReceiver.register(this);
     }

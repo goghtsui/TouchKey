@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.gogh.floattouchkey.fragment.fragment;
+import com.gogh.floattouchkey.fragment.GestureFragment;
 
 /**
  * Created by XiaoFeng on 9/25/2017.
@@ -17,7 +17,7 @@ public class GestureActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(android.R.id.content, new fragment())
+                    .add(android.R.id.content, new GestureFragment())
                     .commit();
         }
     }

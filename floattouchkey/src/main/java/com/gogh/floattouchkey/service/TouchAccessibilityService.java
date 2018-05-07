@@ -4,8 +4,10 @@ import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.gogh.floattouchkey.common.GlobalActionExt;
 import com.gogh.floattouchkey.observable.EventObservabale;
 import com.gogh.floattouchkey.provider.ImePackageProvider;
+import com.gogh.floattouchkey.provider.SensorProvider;
 import com.gogh.floattouchkey.provider.SettingsProvider;
 import com.gogh.floattouchkey.uitls.Logger;
 import com.gogh.floattouchkey.widget.FloatTouchView;
@@ -22,8 +24,8 @@ public class TouchAccessibilityService extends AccessibilityService implements O
     private static final String TAG = "TouchAccessibilityServi";
     private static TouchAccessibilityService SERVICE;
     private boolean isConnected = false;
-    private long mTime = 0;
-    private int mType = Integer.MIN_VALUE;
+
+    private AccessibilityEventListener accessibilityEventListener;
 
     public static TouchAccessibilityService getService() {
         return SERVICE;
@@ -34,6 +36,8 @@ public class TouchAccessibilityService extends AccessibilityService implements O
         super.onCreate();
         SERVICE = this;
         EventObservabale.get().addObserver(this);
+        EventHandleService.get().initEvent(this);
+        AppSwitcherCompat.get().init(this);
     }
 
     /**
@@ -46,31 +50,20 @@ public class TouchAccessibilityService extends AccessibilityService implements O
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         Logger.d(TAG, "onAccessibilityEvent" + accessibilityEvent.getEventType());
-        if (SettingsProvider.get().isRepositionInIme() || SettingsProvider.get().isHiddenInIme()) {
+        if (accessibilityEventListener != null) {
+            accessibilityEventListener.onAccessibilityEvent(accessibilityEvent);
+        }
+        if (SettingsProvider.get().isRepositionInIme()) {
+            String pkgName = accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName().toString() : "";
+            String clz = accessibilityEvent.getClassName() != null ? accessibilityEvent.getClassName().toString() : "";
+            Logger.i(TAG, String.format("onAccessibilityEvent: %s, %s", pkgName, clz));
             switch (accessibilityEvent.getEventType()) {
                 case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-                    String pkgName = accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName().toString() : "";
-                    String clz = accessibilityEvent.getClassName() != null ? accessibilityEvent.getClassName().toString() : "";
-                    Logger.i(TAG, String.format("onAccessibilityEvent: %s, %s", pkgName, clz));
                     if (ImePackageProvider.isIME(pkgName)) {
-                        mTime = System.currentTimeMillis();
+                        // 输入法窗口打开，移动按钮
                         Logger.i(TAG, String.format("onAccessibilityEvent in IME: %s", pkgName));
-                        if (SettingsProvider.get().isHiddenInIme()) {
-                            mType = Integer.MAX_VALUE;
-                            FloatTouchView.get().resetAlpha();
-                        } else if (SettingsProvider.get().isRepositionInIme()) {
+                        if (SettingsProvider.get().isRepositionInIme()) {
                             FloatTouchView.get().repositionInIme();
-                        }
-                    }
-                    break;
-                case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-                    Logger.i(TAG, "onAccessibilityEvent out of IME reset status.");
-                    if ((System.currentTimeMillis() - mTime) > 300 && mTime != 0) {
-                        if (SettingsProvider.get().isHiddenInIme() && mType == Integer.MAX_VALUE) {
-                            FloatTouchView.get().resetAlpha();
-                            mType = Integer.MIN_VALUE;
-                        } else if (SettingsProvider.get().isRepositionInIme()) {
-                            FloatTouchView.get().restoreXYOnImeHidden();
                         }
                     }
                     break;
@@ -78,45 +71,6 @@ public class TouchAccessibilityService extends AccessibilityService implements O
                     break;
             }
         }
-
-       /* if (SettingsProvider.get().isRepositionInIme() || SettingsProvider.get().isHiddenInIme()) {
-            switch (accessibilityEvent.getEventType()) {
-                case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-                    String pkgName = accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName().toString() : "";
-                    String clz = accessibilityEvent.getClassName() != null ? accessibilityEvent.getClassName().toString() : "";
-                    Logger.i(TAG, String.format("onAccessibilityEvent: %s, %s", pkgName, clz));
-                    if (ImePackageProvider.isIME(pkgName)) {
-                        mTime = System.currentTimeMillis();
-                        mType = TYPE_RESET_POSITION;
-                        Logger.i(TAG, String.format("onAccessibilityEvent in IME: %s", pkgName));
-                        FloatTouchView.get().repositionInIme();
-                    } else if (SettingsProvider.get().isHiddenInIme()) {
-                        Logger.i(TAG, "onAccessibilityEvent in IME hide it.");
-                        mTime = System.currentTimeMillis();
-                        mType = TYPE_RESET_ALPHA;
-                        FloatTouchView.get().resetAlpha();
-                    }
-                    break;
-                case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-                    if (mTime != 0 && (System.currentTimeMillis() - mTime) > 300) {
-                        switch (mType) {
-                            case TYPE_RESET_POSITION:
-                                Logger.i(TAG, "onAccessibilityEvent out of IME restore position.");
-                                FloatTouchView.get().restoreXYOnImeHidden();
-                                break;
-                            case TYPE_RESET_ALPHA:
-                                Logger.i(TAG, "onAccessibilityEvent out of IME reset alpha.");
-                                FloatTouchView.get().resetAlpha();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }*/
     }
 
     /**
@@ -130,15 +84,18 @@ public class TouchAccessibilityService extends AccessibilityService implements O
     protected void onServiceConnected() {
         super.onServiceConnected();
         isConnected = true;
+        Logger.d(TAG, "onServiceConnected onServiceConnected");
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
         isConnected = false;
+        Logger.d(TAG, "onServiceConnected onUnbind");
         return super.onUnbind(intent);
     }
 
     public boolean isConnected() {
+        Logger.d(TAG, "onServiceConnected isConnected " + isConnected);
         return isConnected;
     }
 
@@ -161,15 +118,44 @@ public class TouchAccessibilityService extends AccessibilityService implements O
     public void update(Observable o, Object arg) {
         int event = Integer.valueOf(String.valueOf(arg));
         switch (event) {
-            case GLOBAL_ACTION_BACK:
-                performGlobalAction(GLOBAL_ACTION_BACK);
-                break;
-            case GLOBAL_ACTION_HOME:
+            case GlobalActionExt.GLOBAL_ACTION_HOME:
                 performGlobalAction(GLOBAL_ACTION_HOME);
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_LOCK_SCREEN:
+                SensorProvider.get().lockScreen();
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK:
+                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK);
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK:
+                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK);
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_LONG_PRESSED:
+                SensorProvider.get().vibrate();
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT:
+                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT);
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_SWIPE_UP:
+                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_UP);
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT:
+                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT);
+                break;
+            case GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN:
+                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN);
                 break;
             default:
                 break;
         }
+    }
+
+    public void setOnAccessibilityEventListener(AccessibilityEventListener accessibilityEventListener) {
+        this.accessibilityEventListener = accessibilityEventListener;
+    }
+
+    interface AccessibilityEventListener {
+        void onAccessibilityEvent(AccessibilityEvent accessibilityEvent);
     }
 
 }

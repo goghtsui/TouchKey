@@ -22,11 +22,11 @@ public class TouchApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // FIXME: 9/27/2017 缺少针对launcher的特殊处理
         startService(new Intent(this, TouchAccessibilityService.class));
         SensorProvider.get().init(this);
         SettingsObservable.get().addObserver(SettingsObserver.get());
         ImePackageProvider.initAsync(this);
+//        AdSdk.initialize(this, appId);
     }
 
 }

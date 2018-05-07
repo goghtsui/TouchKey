@@ -62,7 +62,7 @@ public class AdminLockPreference extends BaseSwitchPreference {
     @Override
     protected void setCheckStatus() {
         SettingsProvider.get().setRootStatus(false);
-        if (AdminLockReceiver.isActivated(getContext().getApplicationContext())) {
+        if (AdminLockReceiver.isActivated(getContext())) {
             setChecked(true);
             ThreadExecutor.execute(new Runnable() {
                 @Override

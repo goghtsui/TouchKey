@@ -52,12 +52,15 @@ public class SensorProvider {
         private static final SensorProvider HOLDER = new SensorProvider();
     }
 
+    public DevicePolicyManager getDevicePolicyManager() {
+        return mDevicePolicyManager;
+    }
 
-    public void vibrate(){
+    public void vibrate() {
         mVibrator.vibrate(30);
     }
 
-    public void sound(){
+    public void sound() {
         mSoundPool.play(mStartSound, 1.0f, 1.0f, 0, 0, 1.0f);
     }
 

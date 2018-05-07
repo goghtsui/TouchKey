@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.support.annotation.Keep;
 
+import com.gogh.floattouchkey.provider.SensorProvider;
+
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
  * <p> Description: </p>
@@ -21,8 +23,7 @@ public class AdminLockReceiver extends DeviceAdminReceiver {
     }
 
     public static boolean isActivated(Context context) {
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         ComponentName componentName = name(context);
-        return devicePolicyManager.isAdminActive(componentName);
+        return SensorProvider.get().getDevicePolicyManager().isAdminActive(componentName);
     }
 }

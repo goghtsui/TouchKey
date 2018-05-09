@@ -77,13 +77,14 @@ class AppSwitcherImpl implements AppSwitcher {
     }
 
     @Override
-    public synchronized boolean recentTask(TouchAccessibilityService service) {
-        long currentTimeMillis = System.currentTimeMillis();
+    public boolean recentTask(TouchAccessibilityService service) {
+        /*long currentTimeMillis = System.currentTimeMillis();
         if((currentTimeMillis - clickTimeMillions) > DELAY){
             clickTimeMillions = currentTimeMillis;
             return service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_RECENTS);
         }
-        return service.performGlobalAction(-1);
+        return service.performGlobalAction(-1);*/
+        return service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_RECENTS);
     }
 
     @Override

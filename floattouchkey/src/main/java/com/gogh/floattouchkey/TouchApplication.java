@@ -19,14 +19,21 @@ import com.gogh.floattouchkey.service.TouchAccessibilityService;
 
 public class TouchApplication extends Application {
 
+    private static TouchApplication INSTANCE;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        INSTANCE = this;
         startService(new Intent(this, TouchAccessibilityService.class));
         SensorProvider.get().init(this);
         SettingsObservable.get().addObserver(SettingsObserver.get());
         ImePackageProvider.initAsync(this);
 //        AdSdk.initialize(this, appId);
+    }
+
+    public static TouchApplication get(){
+        return INSTANCE;
     }
 
 }

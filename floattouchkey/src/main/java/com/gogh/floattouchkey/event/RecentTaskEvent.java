@@ -1,5 +1,6 @@
 package com.gogh.floattouchkey.event;
 
+import com.gogh.floattouchkey.event.base.AbstractEvent;
 import com.gogh.floattouchkey.service.AppSwitcherCompat;
 import com.gogh.floattouchkey.service.TouchAccessibilityService;
 
@@ -11,9 +12,10 @@ import com.gogh.floattouchkey.service.TouchAccessibilityService;
  * <li> 高晓峰 on 10/11/2017 do fisrt create. </li>
  */
 
-public class RecentTaskEvent implements Event {
+public class RecentTaskEvent extends AbstractEvent {
+
     @Override
-    public void run() {
+    protected void execute() {
         // 最近任务
         AppSwitcherCompat.get().recentTask(TouchAccessibilityService.getService());
     }

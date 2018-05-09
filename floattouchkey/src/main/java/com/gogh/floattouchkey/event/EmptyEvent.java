@@ -1,5 +1,7 @@
 package com.gogh.floattouchkey.event;
 
+import com.gogh.floattouchkey.event.base.AbstractEvent;
+
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
  * <p> Description: </p>
@@ -8,11 +10,9 @@ package com.gogh.floattouchkey.event;
  * <li> 高晓峰 on 10/11/2017 do fisrt create. </li>
  */
 
-public class EmptyEvent implements Event {
-
+public class EmptyEvent extends AbstractEvent {
     @Override
-    public void run() {
-        // empty operation
-    }
+    protected void execute() {
 
+    }
 }

@@ -6,4 +6,7 @@
     <dimen name="pref_seekbar_margin_start">15dip</dimen>
     <dimen name="pref_seelbar_summary_margin_left">15dip</dimen>
     <dimen name="pref_seelbar_summary_margin_top">20dip</dimen>
+
+    <!--capture-->
+    <dimen name="capture_text_size">24sp</dimen>
 </resources>

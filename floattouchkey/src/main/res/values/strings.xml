@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FloatTouchKey</string>
+    <string name="app_name">Easy navigation</string>
 
     <string name="toast_touch_key_tips">话说你得开启按键辅助功能</string>
     <string name="toast_touch_key_scale_tips">看不到了亲… 你还肿么用？</string>
@@ -142,5 +142,11 @@
     <string name="pref_gesture_category_swipe_down_title">下滑</string>
     <string name="pref_gesture_category_swipe_down_summary">下拉通知栏</string>
     <string name="pref_gesture_category_swipe_down_default_value">4</string>
+
+    <!--capture-->
+    <string name="capture_layout_type_free">自由选取</string>
+    <string name="capture_layout_type_full">截取全屏</string>
+    <string name="capture_layout_type_rectangle">矩形选取</string>
+    <string name="screen_capture_fail">抱歉，截屏失败</string>
 
 </resources>

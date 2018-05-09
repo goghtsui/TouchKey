@@ -52,6 +52,11 @@ public class FloatTouchView implements Observer {
     private static final int MSG_AUTOALPHA = 200;
     private static final int MSG_DRAG_MODE = 201;
 
+    private static final int DURATION = 1000;
+    private static final float MIN_ALPHA = 0.3f;
+    private static final float AUTO_ALPHA = 0.3f;
+    private static final int AUTO_ALPHA_DURATION = 3000;
+
     /**
      * 输入法窗口屏占比系数
      */
@@ -121,48 +126,39 @@ public class FloatTouchView implements Observer {
      */
     private ObjectAnimator rotateAnimator;
 
+    /**
+     * 悬浮窗口管理器
+     */
+    private WindowManager mWindowManager;
+
+    /**
+     * 悬浮窗口参数配置
+     */
+    private WindowManager.LayoutParams wmParams;
+
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Logger.d(TAG, "handleMessage " + msg.what);
             switch (msg.what) {
                 case MSG_AUTOALPHA:
-                    ViewCompat.animate(mFloatView).alpha(0.3f).setDuration(1000).start();
+                    float afterNoOperation = mAlphaValue / 3;
+                    if(mAlphaValue <= MIN_ALPHA){
+                        afterNoOperation = MIN_ALPHA;
+                    }
+                    ViewCompat.animate(mFloatView).alpha(afterNoOperation).setDuration(DURATION).start();
                     break;
                 case MSG_DRAG_MODE:
                     isDraggingMode = true;
                     EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_LONG_PRESSED);
                     break;
-                case GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK:
-                    handleEvent(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK:
-                    handleEvent(GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT:
-                    handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_UP:
-                    handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_UP);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT:
-                    handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN:
-                    handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN);
-                    break;
                 default:
+                    handleEvent(msg.what);
                     break;
             }
         }
     };
-    /**
-     * 悬浮窗口管理器
-     */
-    private WindowManager mWindowManager;
-    /**
-     * 悬浮窗口参数配置
-     */
-    private WindowManager.LayoutParams wmParams;
 
     /**
      * 获取本类实例
@@ -178,34 +174,8 @@ public class FloatTouchView implements Observer {
 
     private void handleEvent(int msgType) {
         if (TouchAccessibilityService.getService().isConnected()) {
-            switch (msgType) {
-                case GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK:
-                    feedback();
-                    EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK:
-                    feedback();
-                    EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT:
-                    feedback();
-                    EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_UP:
-                    feedback();
-                    EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_UP);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT:
-                    feedback();
-                    EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT);
-                    break;
-                case GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN:
-                    feedback();
-                    EventObservabale.get().handleEvent(GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN);
-                    break;
-                default:
-                    break;
-            }
+            feedback();
+            EventObservabale.get().handleEvent(msgType);
         } else {
             Snackbar.make(SettingsProvider.get().getView(), context.getResources().getString(R.string.toast_touch_key_tips),
                     Snackbar.LENGTH_LONG).show();
@@ -232,9 +202,21 @@ public class FloatTouchView implements Observer {
     public void removeView() {
         if (isShowing) {
             isShowing = false;
+            if(breathAnimator != null){
+                breathAnimator.cancel();
+                breathAnimator = null;
+            }
+            if(rotateAnimator != null) {
+                rotateAnimator.cancel();
+                rotateAnimator = null;
+            }
             if (mWindowManager != null && mFloatView != null) {
                 SettingsObservable.get().deleteObserver(this);
                 mWindowManager.removeView(mFloatView);
+            }
+            if(mHandler != null){
+                mHandler.removeCallbacksAndMessages(null);
+                mHandler = null;
             }
         }
     }
@@ -275,7 +257,8 @@ public class FloatTouchView implements Observer {
     private void initSize(Context context) {
         mScreenHeight = context.getResources().getDisplayMetrics().heightPixels;
         mDensity = (int) context.getResources().getDisplayMetrics().density;
-        mIMEHeight = (int) ((float) mScreenHeight / IME_WINDOW_SIZE_SC) + 50 * mDensity; //Offset;
+        //Offset;
+        mIMEHeight = (int) ((float) mScreenHeight / IME_WINDOW_SIZE_SC) + 50 * mDensity;
         Logger.i(TAG, String.format("Screen density:%s, ime height:%s", mDensity, mIMEHeight));
     }
 
@@ -312,6 +295,7 @@ public class FloatTouchView implements Observer {
      * @date 10/9/2017
      * @ChangeLog: <li> 高晓峰 on 10/9/2017 </li>
      */
+    @SuppressLint("ClickableViewAccessibility")
     private void createFloatView(final Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         // 获取窗口布局
@@ -344,11 +328,14 @@ public class FloatTouchView implements Observer {
                         endX = startX;
                         endY = startY;
                         isClickEvent = false;
-                        mHandler.sendEmptyMessageDelayed(MSG_DRAG_MODE, 1500);// 计时开启，制定时间后才会触发移动事件
+                        Logger.d(TAG, "onTouch:ACTION_DOWN:MSG_DRAG_MODE");
+                        // 计时开启，指定时间后才会触发移动事件
+                        mHandler.sendEmptyMessageDelayed(MSG_DRAG_MODE, 1500);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         isClickEvent = true;
-                        if (isCanMove()) {// 移动模式
+                        // 移动模式
+                        if (isCanMove()) {
                             // getRawX是触摸位置相对于屏幕的坐标，getX是相对于按钮的坐标
                             wmParams.x = (int) event.getRawX()
                                     - mFloatView.getMeasuredWidth() / 2;
@@ -359,42 +346,58 @@ public class FloatTouchView implements Observer {
                             mWindowManager.updateViewLayout(mFloatView, wmParams);
                             return true;
                         } else {// 按键模式
+                            Logger.d(TAG, "onTouch:ACTION_MOVE:press");
                             mHandler.removeMessages(MSG_DRAG_MODE);
                             // 重置抬起手机坐标
                             endX = event.getX();
                             endY = event.getY();
                         }
                     case MotionEvent.ACTION_UP:
-                        if (isCanMove()) {// 移动模式
+                        // 移动模式
+                        if (isCanMove()) {
                             oldPosition[0] = wmParams.x;
                             oldPosition[1] = wmParams.y;
                             resetPosition();
                             autoAlpha();
-                        } else {// 按键模式
-                            if ((startX == endX || Math.abs(endX - startX) < MIN_MOVE_DISTANCE)
-                                    && (startY == endY || Math.abs(endY - startY) < MIN_MOVE_DISTANCE)) {
+                        } else {
+                            // 按键模式
+                            boolean condition1 = (startX == endX || Math.abs(endX - startX) < MIN_MOVE_DISTANCE);
+                            boolean condition2 = (startY == endY || Math.abs(endY - startY) < MIN_MOVE_DISTANCE);
+                            if (condition1 && condition2) {
                                 isClickEvent = false;
                             } else {
-                                if (Math.abs(endX - startX) > Math.abs(endY - startY)) {// x方向移动距离大
-                                    if (startX > endX && Math.abs(endX - startX) >= MIN_MOVE_DISTANCE) {// 向左
+                                // x方向移动距离大
+                                if (Math.abs(endX - startX) > Math.abs(endY - startY)) {
+                                    // 向左
+                                    if (startX > endX && Math.abs(endX - startX) >= MIN_MOVE_DISTANCE) {
+                                        Logger.d(TAG, "onTouch:ACTION_UP:left");
                                         mHandler.sendEmptyMessage(GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT);
-                                    } else {// 向右
+                                    } else {
+                                        // 向右
+                                        Logger.d(TAG, "onTouch:ACTION_UP:right");
                                         mHandler.sendEmptyMessage(GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT);
                                     }
-                                } else {// y方向移动距离大
-                                    if (startY > endY && Math.abs(endY - startY) >= MIN_MOVE_DISTANCE) {// 向上
+                                } else {
+                                    // y方向移动距离大
+                                    if (startY > endY && Math.abs(endY - startY) >= MIN_MOVE_DISTANCE) {
+                                        // 向上
+                                        Logger.d(TAG, "onTouch:ACTION_UP:up");
                                         mHandler.sendEmptyMessage(GlobalActionExt.GLOBAL_ACTION_SWIPE_UP);
-                                    } else {// 向下
+                                    } else {
+                                        // 向下
+                                        Logger.d(TAG, "onTouch:ACTION_UP:down");
                                         mHandler.sendEmptyMessage(GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN);
                                     }
                                 }
                             }
                         }
 
+                        Logger.d(TAG, "onTouch:ACTION_UP:MSG_DRAG_MODE");
                         // 重置按键标识状态
                         mHandler.removeMessages(MSG_DRAG_MODE);
                         isDraggingMode = false;
-                        return isClickEvent;// 返回false则属于移动事件，返回true则属于点击事件
+                        // 返回false则属于移动事件，返回true则属于点击事件
+                        return isClickEvent;
                     default:
                         break;
                 }
@@ -406,10 +409,13 @@ public class FloatTouchView implements Observer {
 
             @Override
             public void onClick(View v) {
-                if (mHandler.hasMessages(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK)) {// 双击
+                if (mHandler.hasMessages(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK)) {
+                    // 双击
+                    Logger.d(TAG, "onClick double click");
                     mHandler.removeMessages(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK);
                     mHandler.sendEmptyMessage(GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK);
                 } else {// 单击
+                    Logger.d(TAG, "onClick single click");
                     mHandler.sendEmptyMessageDelayed(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK, DOUBLE_CLICK_DELAY);
                 }
             }
@@ -447,7 +453,8 @@ public class FloatTouchView implements Observer {
             if (mHandler.hasMessages(MSG_AUTOALPHA)) {
                 mHandler.removeMessages(MSG_AUTOALPHA);
             }
-            mHandler.sendEmptyMessageDelayed(MSG_AUTOALPHA, 3000);
+            Logger.d(TAG, "autoAlpha");
+            mHandler.sendEmptyMessageDelayed(MSG_AUTOALPHA, AUTO_ALPHA_DURATION);
         } else {
             if (mHandler.hasMessages(MSG_AUTOALPHA)) {
                 mHandler.removeMessages(MSG_AUTOALPHA);
@@ -600,7 +607,7 @@ public class FloatTouchView implements Observer {
         if (mWindowManager != null && mFloatView != null && SettingsProvider.get().isRotate()) {
             if (rotateAnimator == null) {
                 rotateAnimator = ObjectAnimator.ofFloat(mFloatView, "rotation", 0.0f, 359.0f);
-                rotateAnimator.setDuration(3500);
+                rotateAnimator.setDuration(AUTO_ALPHA_DURATION);
                 rotateAnimator.setInterpolator(new LinearInterpolator());
                 rotateAnimator.setRepeatCount(ValueAnimator.INFINITE);
                 rotateAnimator.setRepeatMode(ValueAnimator.RESTART);
@@ -645,7 +652,7 @@ public class FloatTouchView implements Observer {
                 return;
             }*/
             if (breathAnimator == null) {
-                breathAnimator = ObjectAnimator.ofFloat(mFloatView, "alpha", 1.0f, 0.3f);
+                breathAnimator = ObjectAnimator.ofFloat(mFloatView, "alpha", mAlphaValue, AUTO_ALPHA);
                 breathAnimator.setDuration(1500);
                 breathAnimator.setInterpolator(new DecelerateInterpolator());
                 breathAnimator.setRepeatMode(ValueAnimator.REVERSE);
@@ -669,6 +676,7 @@ public class FloatTouchView implements Observer {
             }
             if (mFloatView != null) {
                 mFloatView.setAlpha(mAlphaValue);
+                autoAlpha();
             }
         }
     }

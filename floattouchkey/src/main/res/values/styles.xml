@@ -18,4 +18,52 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--控制searchView的icon颜色的设置-->
+        <!--<item name="colorControlNormal">@color/colorControlNormal</item>-->
+        <item name="colorControlNormal">@color/white</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/accent_material_light</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="editTextColor">@android:color/white</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <!--<item name="android:listDivider">@drawable/card_list_divider</item>
+        <item name="textAppearanceLargePopupMenu">@style/PopUpMenuStyle</item>
+        <item name="textAppearanceSmallPopupMenu">@style/PopUpMenuStyle</item>
+        <item name="android:spinnerItemStyle">@style/MonthDropTheme</item>-->
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="OverlayTheme" parent="@style/AppBaseTheme" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <item name="android:windowBackground">@color/colorHalfBlack</item>
+    </style>
+
+    <style name="ScreenCaptureTheme" parent="OverlayTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 </resources>

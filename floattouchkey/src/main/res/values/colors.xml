@@ -9,4 +9,7 @@
     <color name="colorDarkgray">#6cc3c3c3</color>
     <color name="colorHalfBlack">#32141414</color>
     <color name="colorlargeBlack">#56141414</color>
+
+    <!--capture-->
+    <color name="white">#ffffff</color>
 </resources>

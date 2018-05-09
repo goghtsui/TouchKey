@@ -1,5 +1,6 @@
 package com.gogh.floattouchkey.event;
 
+import com.gogh.floattouchkey.event.base.AbstractEvent;
 import com.gogh.floattouchkey.provider.SensorProvider;
 
 /**
@@ -10,9 +11,9 @@ import com.gogh.floattouchkey.provider.SensorProvider;
  * <li> 高晓峰 on 10/11/2017 do fisrt create. </li>
  */
 
-public class LockEvent implements Event {
+public class LockEvent extends AbstractEvent {
     @Override
-    public void run() {
+    protected void execute() {
         SensorProvider.get().lockScreen();
     }
 }

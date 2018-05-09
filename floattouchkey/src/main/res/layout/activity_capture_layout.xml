@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.gogh.floattouchkey.view.CaptureSizeView
+        android:id="@+id/activity_capture_markview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/activity_capture_type_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/capture_layout_type_free"
+            android:textColor="@color/white"
+            android:textSize="@dimen/capture_text_size"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/capture_layout_type_full"
+            android:textColor="@color/white"
+            android:textSize="@dimen/capture_text_size"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/capture_layout_type_rectangle"
+            android:textColor="@color/white"
+            android:textSize="@dimen/capture_text_size"/>
+    </LinearLayout>
+
+</RelativeLayout>

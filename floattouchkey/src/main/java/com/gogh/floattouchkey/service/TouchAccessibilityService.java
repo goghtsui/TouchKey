@@ -124,28 +124,11 @@ public class TouchAccessibilityService extends AccessibilityService implements O
             case GlobalActionExt.GLOBAL_ACTION_LOCK_SCREEN:
                 SensorProvider.get().lockScreen();
                 break;
-            case GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK:
-                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SINGLE_CLICK);
-                break;
-            case GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK:
-                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_DOUBLE_CLICK);
-                break;
             case GlobalActionExt.GLOBAL_ACTION_LONG_PRESSED:
                 SensorProvider.get().vibrate();
                 break;
-            case GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT:
-                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_LEFT);
-                break;
-            case GlobalActionExt.GLOBAL_ACTION_SWIPE_UP:
-                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_UP);
-                break;
-            case GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT:
-                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_RIGHT);
-                break;
-            case GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN:
-                EventHandleService.get().run(GlobalActionExt.GLOBAL_ACTION_SWIPE_DOWN);
-                break;
             default:
+                EventHandleService.get().run(event);
                 break;
         }
     }

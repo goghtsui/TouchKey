@@ -2,6 +2,7 @@ package com.gogh.floattouchkey.event;
 
 import android.accessibilityservice.AccessibilityService;
 
+import com.gogh.floattouchkey.event.base.Event;
 import com.gogh.floattouchkey.service.TouchAccessibilityService;
 
 /**

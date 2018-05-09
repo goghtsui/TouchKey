@@ -8,7 +8,7 @@ import com.gogh.floattouchkey.event.AppShortCutPanel;
 import com.gogh.floattouchkey.event.BackEvent;
 import com.gogh.floattouchkey.event.CaptureEvent;
 import com.gogh.floattouchkey.event.EmptyEvent;
-import com.gogh.floattouchkey.event.Event;
+import com.gogh.floattouchkey.event.base.Event;
 import com.gogh.floattouchkey.event.HomeEvent;
 import com.gogh.floattouchkey.event.KillAppEvent;
 import com.gogh.floattouchkey.event.LockEvent;

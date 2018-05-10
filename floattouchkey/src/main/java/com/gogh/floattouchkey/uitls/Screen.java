@@ -3,12 +3,8 @@ package com.gogh.floattouchkey.uitls;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
-import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 /**
@@ -20,47 +16,15 @@ import android.view.WindowManager;
  */
 public class Screen {
 
-    public static int getDensity(Context context){
-        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display displayMetrics = null;
-        if (windowManager != null) {
-            displayMetrics = windowManager.getDefaultDisplay();
-        }
-        if (displayMetrics != null) {
-            displayMetrics.getMetrics(localDisplayMetrics);
-        }
-        return localDisplayMetrics.densityDpi;
+    private int widthPixels = 0;
+    private int heightPixels = 0;
+    private int densityDpi = 0;
+
+    public static Screen get() {
+        return SingleHolder.HOLDER;
     }
 
-    public static int getWidth(Context context) {
-        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display displayMetrics = null;
-        if (windowManager != null) {
-            displayMetrics = windowManager.getDefaultDisplay();
-        }
-        if (displayMetrics != null) {
-            displayMetrics.getMetrics(localDisplayMetrics);
-        }
-        return localDisplayMetrics.widthPixels;
-    }
-
-
-    public static int getHeight(Context context) {
-        Point point = new Point();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display displayMetrics = null;
-        if (windowManager != null) {
-            displayMetrics = windowManager.getDefaultDisplay();
-        }
-        if (displayMetrics != null) {
-            displayMetrics.getSize(point);
-        }
-        return point.y + getNavigationBarHeight(context);
-    }
-
-    public static int getNavigationBarHeight(Context context) {
+    private int getNavigationBarHeight(Context context) {
         if (!isNavigationBarShow(context)) {
             return 0;
         }
@@ -72,24 +36,57 @@ public class Screen {
         return height;
     }
 
-    private static boolean isNavigationBarShow(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Display displayMetrics = null;
-            if (windowManager != null) {
-                displayMetrics = windowManager.getDefaultDisplay();
-                Point size = new Point();
-                Point realSize = new Point();
-                displayMetrics.getSize(size);
-                displayMetrics.getRealSize(realSize);
-                return realSize.y != size.y;
-            }
-        } else {
-            boolean menu = ViewConfiguration.get(context).hasPermanentMenuKey();
-            boolean back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-            return !menu && !back;
+    private boolean isNavigationBarShow(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display displayMetrics;
+        if (windowManager != null) {
+            displayMetrics = windowManager.getDefaultDisplay();
+            Point size = new Point();
+            Point realSize = new Point();
+            displayMetrics.getSize(size);
+            displayMetrics.getRealSize(realSize);
+            return realSize.y != size.y;
         }
         return false;
+    }
+
+    private int getHeightPixels(Context context, Display displayMetrics){
+        Point point = new Point();
+        if (displayMetrics != null) {
+            displayMetrics.getSize(point);
+        }
+        return point.y + getNavigationBarHeight(context);
+    }
+
+    public void init(Context context) {
+        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display displayMetrics = null;
+        if (windowManager != null) {
+            displayMetrics = windowManager.getDefaultDisplay();
+        }
+        if (displayMetrics != null) {
+            displayMetrics.getMetrics(localDisplayMetrics);
+        }
+        widthPixels = localDisplayMetrics.widthPixels;
+        heightPixels = getHeightPixels(context, displayMetrics);
+        densityDpi = localDisplayMetrics.densityDpi;
+    }
+
+    public int getDensity() {
+        return densityDpi;
+    }
+
+    public int getHeight() {
+        return heightPixels;
+    }
+
+    public int getWidth() {
+        return widthPixels;
+    }
+
+    private static final class SingleHolder {
+        private static final Screen HOLDER = new Screen();
     }
 
 }

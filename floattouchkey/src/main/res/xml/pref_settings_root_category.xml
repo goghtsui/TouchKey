@@ -34,7 +34,10 @@
 
     <!-- 广告 -->
     <PreferenceCategory android:title="@string/pref_root_category_title_advertisement">
-        <Preference android:layout="@layout/pref_advertisement_layout" />
+        <Preference android:layout="@layout/pref_advertisement_layout" >
+            <intent
+                android:action="com.gogh.intent.action.CAPTURE"/>
+        </Preference>
         <Preference android:layout="@layout/pref_divider_layout" />
     </PreferenceCategory>
 

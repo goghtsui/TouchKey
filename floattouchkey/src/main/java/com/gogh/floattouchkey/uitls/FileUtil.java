@@ -19,27 +19,18 @@ public class FileUtil {
   public static final String SCREENSHOT_NAME = "Screenshot";
 
   public static String getAppPath(Context context) {
-
     if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-
-
       return Environment.getExternalStorageDirectory().toString();
-
     } else {
-
       return context.getFilesDir().toString();
     }
-
   }
 
 
   public static String getScreenShots(Context context) {
-
     StringBuffer stringBuffer = new StringBuffer(getAppPath(context));
     stringBuffer.append(File.separator);
-
     stringBuffer.append(SCREENCAPTURE_PATH);
-
     File file = new File(stringBuffer.toString());
 
     if (!file.exists()) {

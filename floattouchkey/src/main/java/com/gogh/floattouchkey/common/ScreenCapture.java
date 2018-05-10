@@ -76,7 +76,7 @@ public class ScreenCapture {
         mResultCode=resultCode;
         this.mRect = mRect;
         this.mGraphicPath = mGraphicPath;
-        this.mScreenWidth = Screen.getWidth(activity);
+        this.mScreenWidth = Screen.get().getWidth();
         try {
             createVirtualEnvironment();
         } catch (Exception e) {
@@ -128,8 +128,8 @@ public class ScreenCapture {
         nameImage = pathImage + strDate + ".png";
         mMediaProjectionManager1 = (MediaProjectionManager) activity.getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         mWindowManager1 = (WindowManager) activity.getApplication().getSystemService(Context.WINDOW_SERVICE);
-        windowWidth = Screen.getWidth(activity);
-        windowHeight = Screen.getHeight(activity);
+        windowWidth = Screen.get().getWidth();
+        windowHeight = Screen.get().getHeight();
         metrics = new DisplayMetrics();
         mWindowManager1.getDefaultDisplay().getMetrics(metrics);
         mScreenDensity = metrics.densityDpi;

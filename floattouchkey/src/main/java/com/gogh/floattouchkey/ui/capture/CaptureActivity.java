@@ -15,6 +15,7 @@ import com.gogh.floattouchkey.common.CaptureManager;
 import com.gogh.floattouchkey.common.ScreenCapture;
 import com.gogh.floattouchkey.ui.BaseAppCompatActivity;
 import com.gogh.floattouchkey.uitls.Logger;
+import com.gogh.floattouchkey.uitls.Screen;
 import com.gogh.floattouchkey.view.CaptureSizeView;
 
 /**
@@ -43,6 +44,7 @@ public class CaptureActivity extends BaseAppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_capture_layout);
+        Screen.get().init(this);
         initData();
         initView();
     }
@@ -84,8 +86,11 @@ public class CaptureActivity extends BaseAppCompatActivity {
         if (requestCode == REQUEST_MEDIA_PROJECTION) {
             if (resultCode == RESULT_OK && data != null) {
                 Logger.i(TAG, "user agree the application to capture screen");
-                new CaptureManager(this, data).startScreenShot();
-//                startScreenCapture(data, resultCode);
+                CaptureManager.graphicPath = mCaptureSizeView.getGraphicPath();
+                CaptureManager.setUpMediaProjection(CaptureActivity.this, data);
+                CaptureManager.initScreenSize();
+                CaptureManager.createImageReader();
+                CaptureManager.beginScreenShot(CaptureActivity.this, data);
             }
         }
     }

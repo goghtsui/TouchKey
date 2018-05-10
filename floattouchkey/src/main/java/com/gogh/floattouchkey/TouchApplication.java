@@ -25,10 +25,10 @@ public class TouchApplication extends Application {
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
-        startService(new Intent(this, TouchAccessibilityService.class));
         SensorProvider.get().init(this);
         SettingsObservable.get().addObserver(SettingsObserver.get());
         ImePackageProvider.initAsync(this);
+        startService(new Intent(this, TouchAccessibilityService.class));
 //        AdSdk.initialize(this, appId);
     }
 

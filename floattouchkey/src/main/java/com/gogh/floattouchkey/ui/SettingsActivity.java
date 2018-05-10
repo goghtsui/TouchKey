@@ -33,4 +33,5 @@ public class SettingsActivity extends BaseAppCompatActivity {
         super.onStart();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
     }
+
 }

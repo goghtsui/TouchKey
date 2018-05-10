@@ -41,7 +41,12 @@
 
         <activity
             android:name=".ui.capture.CaptureActivity"
-            android:theme="@style/ScreenCaptureTheme"/>
+            android:theme="@style/ScreenCaptureTheme">
+            <intent-filter>
+                <action android:name="com.gogh.intent.action.CAPTURE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
         <activity android:name=".ui.GestureActivity">
             <intent-filter>

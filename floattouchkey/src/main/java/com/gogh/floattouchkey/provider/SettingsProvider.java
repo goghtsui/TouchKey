@@ -41,7 +41,6 @@ public class SettingsProvider implements Switcher {
     public void init(Context context, SharedPreferences preferences) {
         this.context = context;
         this.mPreferences = preferences;
-        EventProvider.get().init(context, preferences);
     }
 
     public void setView(View view) {

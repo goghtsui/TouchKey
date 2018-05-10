@@ -2,6 +2,7 @@ package com.gogh.floattouchkey.fragment;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -12,8 +13,10 @@ import android.util.Log;
 import com.gogh.floattouchkey.R;
 import com.gogh.floattouchkey.observable.ActivityResultObservable;
 import com.gogh.floattouchkey.observer.SettingsObserver;
+import com.gogh.floattouchkey.provider.EventProvider;
 import com.gogh.floattouchkey.provider.SettingsProvider;
 import com.gogh.floattouchkey.receiver.AdminLockReceiver;
+import com.gogh.floattouchkey.service.EventHandleService;
 import com.gogh.floattouchkey.uitls.Logger;
 import com.gogh.floattouchkey.widget.FloatTouchView;
 
@@ -42,7 +45,10 @@ public class SettingsFragment extends BaseFragment implements SettingsObserver.O
         super.onActivityCreated(savedInstanceState);
         SettingsObserver.get().observe(this);
         mStatus = STATUS_ONCREATE;
-        SettingsProvider.get().init(getActivity(), getPreferenceManager().getSharedPreferences());
+        SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+        EventProvider.get().init(getActivity(), preferences);
+        SettingsProvider.get().init(getActivity(), preferences);
+        EventHandleService.get().initEvent(getActivity());
     }
 
     @Override

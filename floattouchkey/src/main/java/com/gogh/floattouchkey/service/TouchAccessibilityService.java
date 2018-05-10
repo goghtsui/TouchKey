@@ -36,7 +36,7 @@ public class TouchAccessibilityService extends AccessibilityService implements O
         super.onCreate();
         SERVICE = this;
         EventObservabale.get().addObserver(this);
-        EventHandleService.get().initEvent(this);
+//        EventHandleService.get().initEvent(this);
         AppSwitcherCompat.get().init(this);
     }
 

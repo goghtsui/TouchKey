@@ -28,6 +28,13 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.14-RC1'
+    // Dialog
+    implementation 'com.afollestad.material-dialogs:commons:0.9.0.2'
+    // 图片缩放
+    implementation 'com.commit451:PhotoView:1.2.4'
     //
     implementation 'com.chrisplus.rootmanager:library:2.0.5@aar'
     implementation files('libs/AdSdk.jar')

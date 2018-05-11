@@ -9,9 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gogh.floattouchkey.R;
-import com.gogh.floattouchkey.common.CaptureManager;
+import com.gogh.floattouchkey.common.Event;
 import com.gogh.floattouchkey.common.ScreenCapture;
 import com.gogh.floattouchkey.ui.BaseAppCompatActivity;
 import com.gogh.floattouchkey.uitls.Logger;
@@ -31,18 +32,18 @@ public class CaptureActivity extends BaseAppCompatActivity {
 
     private CaptureSizeView mCaptureSizeView;
     private LinearLayout mTypeContainer;
+    private TextView mFreeCapture;
+    private TextView mFullCapture;
+    private TextView mRectangleCapture;
 
-    private int REQUEST_MEDIA_PROJECTION = 1;
+    private int mEventType = Event.CAPTURE_NONE;
+
+    private static final int REQUEST_MEDIA_PROJECTION = 1;
     private MediaProjectionManager mMediaProjectionManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            //5.0 之后才允许使用屏幕截图
-            this.finish();
-            return;
-        }
         setContentView(R.layout.activity_capture_layout);
         Screen.get().init(this);
         initData();
@@ -59,24 +60,34 @@ public class CaptureActivity extends BaseAppCompatActivity {
             }
         });
         mTypeContainer = (LinearLayout) findViewById(R.id.activity_capture_type_container);
-        mTypeContainer.setOnClickListener(new View.OnClickListener() {
+        mFreeCapture = (TextView) findViewById(R.id.activity_capture_freecapture);
+        mFullCapture = (TextView) findViewById(R.id.activity_capture_fullcapture);
+        mRectangleCapture = (TextView) findViewById(R.id.activity_capture_rectanglecapture);
+        mFreeCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTypeContainer.setVisibility(View.GONE);
+                mEventType = Event.CAPTURE_FREE;
+            }
+        });
+        mFullCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypeContainer.setVisibility(View.GONE);
+                mEventType = Event.CAPTURE_FULL;
+            }
+        });
+        mRectangleCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypeContainer.setVisibility(View.GONE);
+                mEventType = Event.CAPTURE_RECTANGLE;
             }
         });
     }
 
     private void initData(){
         mMediaProjectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-    }
-
-    private void startScreenCapture(Intent intent, int resultCode) {
-        try {
-            new ScreenCapture(this ,intent, resultCode, null, mCaptureSizeView.getGraphicPath()).toCapture();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -86,11 +97,7 @@ public class CaptureActivity extends BaseAppCompatActivity {
         if (requestCode == REQUEST_MEDIA_PROJECTION) {
             if (resultCode == RESULT_OK && data != null) {
                 Logger.i(TAG, "user agree the application to capture screen");
-                CaptureManager.graphicPath = mCaptureSizeView.getGraphicPath();
-                CaptureManager.setUpMediaProjection(CaptureActivity.this, data);
-                CaptureManager.initScreenSize();
-                CaptureManager.createImageReader();
-                CaptureManager.beginScreenShot(CaptureActivity.this, data);
+                ScreenCapture.get().init(this, mCaptureSizeView.getGraphicPath(), data, mEventType);
             }
         }
     }

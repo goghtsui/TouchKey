@@ -9,6 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <ImageView
+        android:id="@+id/activity_capture_select_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:src="@drawable/ic_capture_select"/>
+
     <LinearLayout
         android:id="@+id/activity_capture_type_container"
         android:layout_width="match_parent"

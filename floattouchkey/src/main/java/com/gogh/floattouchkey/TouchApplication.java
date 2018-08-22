@@ -8,6 +8,10 @@ import com.gogh.floattouchkey.observer.SettingsObserver;
 import com.gogh.floattouchkey.provider.ImePackageProvider;
 import com.gogh.floattouchkey.provider.SensorProvider;
 import com.gogh.floattouchkey.service.TouchAccessibilityService;
+import com.gogh.floattouchkey.uitls.FileUtil;
+import com.googlecode.tesseract.android.TessBaseAPI;
+
+import java.io.IOException;
 
 /**
  * Copyright (c) 2017 All Rights reserved by gaoxiaofeng
@@ -30,6 +34,20 @@ public class TouchApplication extends Application {
         ImePackageProvider.initAsync(this);
         startService(new Intent(this, TouchAccessibilityService.class));
 //        AdSdk.initialize(this, appId);
+
+        try {
+            FileUtil.copyFile(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public TessBaseAPI getTessAPI(){
+        TessBaseAPI tessApi = new TessBaseAPI();
+        tessApi.init(FileUtil.getTessbasePath(this), FileUtil.DEFAULT_LANGUAGE);
+        //设置识别模式
+        tessApi.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
+        return tessApi;
     }
 
     public static TouchApplication get(){

@@ -1,5 +1,6 @@
 package com.gogh.floattouchkey.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -9,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gogh.floattouchkey.R;
+import com.gogh.floattouchkey.uitls.FileUtil;
+import com.gogh.floattouchkey.uitls.ImgPretreatment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +29,15 @@ import java.util.List;
  */
 public class CaptureDialog {
 
+    private static final String TAG = "CaptureDialog";
+
     private Context context;
     private MaterialDialog dialog;
     private Bitmap firstBitmap;
-    private Bitmap secondBitmap;
 
     private List<View> viewList = new ArrayList<>();
 
-    public CaptureDialog(Context context) {
+    public void init(Context context) {
         this.context = context;
     }
 
@@ -40,24 +45,12 @@ public class CaptureDialog {
         this.firstBitmap = firstBitmap;
     }
 
-    public void setSecondBitmap(Bitmap secondBitmap){
-        this.secondBitmap = secondBitmap;
-    }
-
-    public void show() {
-        dialog = new MaterialDialog.Builder(context)
+    public void show(final Context captureContext) {
+        dialog = new MaterialDialog.Builder(captureContext)
                 .title("左右滑动，编辑图片或文字")
-                .iconRes(android.R.drawable.ic_dialog_info)
-                .backgroundColorRes(R.color.colorPrimary)
+                .iconRes(R.drawable.ic_capture_alert)
                 .customView(R.layout.dialog_capture_operation_layout, false)
                 .show();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-//                ((Activity)context).finish();
-            }
-        });
-
         View operationView = dialog.getCustomView();
         if(operationView != null){
             final ViewPager viewPager = (ViewPager) operationView.findViewById(R.id.dialog_capture_operation_viewpager);
@@ -67,14 +60,29 @@ public class CaptureDialog {
             viewList.add(first);
             viewList.add(second);
 
-
             ImageView firstImage = (ImageView) first.findViewById(R.id.dialog_capture_operation_first_image);
-            ImageView secondImage = (ImageView) second.findViewById(R.id.dialog_capture_operation_second_image);
+            TextView ocrText = (TextView) second.findViewById(R.id.dialog_capture_operation_ocr_text);
 
-            firstImage.setImageBitmap(firstBitmap);
-            secondImage.setImageBitmap(secondBitmap);
-
+            firstImage.setImageBitmap(FileUtil.scaleBitmap(firstBitmap));
             viewPager.setAdapter(pagerAdapter);
+
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if(firstBitmap != null){
+                        firstBitmap.recycle();
+                    }
+                    ((Activity)captureContext).finish();
+                }
+            });
+
+            ocrText.setText(ImgPretreatment.doOcr(firstImage, firstBitmap));
+        }
+    }
+
+    public void release(){
+        if(dialog != null && dialog.isShowing()){
+            dialog.dismiss();
         }
     }
 

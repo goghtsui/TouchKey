@@ -105,21 +105,24 @@ public class CaptureSizeView extends View {
 
     private void initPaint() {
         unMarkPaint = new Paint();
-        unMarkPaint.setColor(getResources().getColor(R.color.colorHalfBlack));
+        unMarkPaint.setColor(getResources().getColor(R.color.colorlargeBlack));
         unMarkPaint.setAntiAlias(true);
         //
         markPaint = new Paint();
-        markPaint.setColor(Color.WHITE);
+        markPaint.setColor(Color.YELLOW);
         markPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         // PorterDuff.Mode.CLEAR 的作用就在于将选取的区域背景色去除掉
         markPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        markPaint.setStrokeWidth(3.0f);
+        markPaint.setStrokeWidth(5.0f);
         markPaint.setAntiAlias(true);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(onCaptureListener != null){
+            onCaptureListener.onStart();
+        }
         if (!isEnabled()) {
             return false;
         }
@@ -196,6 +199,7 @@ public class CaptureSizeView extends View {
     }
 
     public interface OnCaptureListener {
+        void onStart();
         void onComplete();
     }
 

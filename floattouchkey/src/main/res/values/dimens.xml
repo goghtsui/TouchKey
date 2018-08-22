@@ -9,4 +9,5 @@
 
     <!--capture-->
     <dimen name="capture_text_size">24sp</dimen>
+    <dimen name="capture_selector_min_width">72dp</dimen>
 </resources>

@@ -12,4 +12,6 @@
 
     <!--capture-->
     <color name="white">#ffffff</color>
+    <color name="black">#99000000</color>
+    <color name="warm_orange">#f75c09</color>
 </resources>

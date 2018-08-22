@@ -20,9 +20,9 @@ import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Handler;
 import android.view.Surface;
+import android.widget.Toast;
 
 import com.gogh.floattouchkey.entity.GraphicPath;
-import com.gogh.floattouchkey.uitls.FileUtil;
 import com.gogh.floattouchkey.uitls.Logger;
 import com.gogh.floattouchkey.uitls.Screen;
 import com.gogh.floattouchkey.view.CaptureDialog;
@@ -51,9 +51,8 @@ public class ScreenCapture {
     private int screenWidth;
     private int screenHeight;
 
-    private CaptureDialog captureDialog;
-
     private int mEventType = Event.CAPTURE_NONE;
+    private CaptureDialog captureDialog;
     private GraphicPath graphicPath;
     private ImageReader imageReader;
     private VirtualDisplay virtualDisplay;
@@ -73,7 +72,6 @@ public class ScreenCapture {
         this.resultData = data;
         this.mEventType = eventType;
         this.graphicPath = graphicPath;
-        captureDialog = new CaptureDialog(context);
         setUpMediaProjection();
         initScreenSize();
         createImageReader();
@@ -205,6 +203,8 @@ public class ScreenCapture {
                     @Override
                     public void onSubscribe(Subscription s) {
                         s.request(1);
+                        captureDialog = new CaptureDialog();
+                        captureDialog.init(context);
                     }
 
                     @Override
@@ -214,16 +214,22 @@ public class ScreenCapture {
                             surface.release();
                         }
                         isAquire.set(0);
-                        captureDialog.setFirstBitmap(bitmap);
                         // 保存全屏截图
-                        FileUtil.saveBitmap(context, bitmap);
-                        // 裁剪指定区域截图
-                        cutBitmap(bitmap);
+//                        FileUtil.saveBitmap(context, bitmap);
+                        if(mEventType == Event.CAPTURE_FULL){
+                            captureDialog.setFirstBitmap(bitmap);
+                            captureDialog.show(context);
+                        } else {
+                            // 裁剪指定区域截图
+                            cutBitmap(bitmap);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         Logger.d(TAG, "onError " + t.getMessage());
+                        captureDialog.release();
+                        captureDialog = null;
                     }
 
                     @Override
@@ -234,11 +240,12 @@ public class ScreenCapture {
                 });
     }
 
-    private void cutBitmap(Bitmap bitmap) {
-        Logger.d(TAG, "bitmap cuted first");
+    private void cutBitmap(Bitmap originalBitmap) {
+        Logger.d(TAG, "bitmap cuted running");
         Rect mRect = null;
         if (graphicPath != null) {
-            mRect = new Rect(graphicPath.getLeft(), graphicPath.getTop(), graphicPath.getRight(), graphicPath.getBottom());
+            mRect = new Rect(graphicPath.getLeft(), graphicPath.getTop(),
+                    graphicPath.getRight(), graphicPath.getBottom());
         }
         if (mRect != null) {
             if (mRect.left < 0) {
@@ -256,23 +263,33 @@ public class ScreenCapture {
 
             int cutWidth = Math.abs(mRect.left - mRect.right);
             int cutHeight = Math.abs(mRect.top - mRect.bottom);
+
+            Bitmap cutBitmap = null;
+
             if (cutWidth > 0 && cutHeight > 0) {
-                Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cutWidth, cutHeight);
-                Logger.d(TAG, "bitmap cuted second");
+                Bitmap tempBitmap = Bitmap.createBitmap(originalBitmap, mRect.left,
+                        mRect.top, cutWidth, cutHeight);
+                Logger.d(TAG, "bitmap cuted executing.");
+                Logger.d(TAG, "bitmap cuted left." + mRect.left);
+                Logger.d(TAG, "bitmap cuted top." + mRect.top);
+                Logger.d(TAG, "bitmap cuted cutWidth." + cutWidth);
+                Logger.d(TAG, "bitmap cuted cutHeight." + cutHeight);
                 if (graphicPath != null) {
                     // 准备画笔
                     Paint paint = new Paint();
                     paint.setAntiAlias(true);
                     paint.setStyle(Paint.Style.FILL_AND_STROKE);
                     paint.setColor(Color.WHITE);
-                    Bitmap temp = Bitmap.createBitmap(cutWidth, cutHeight, Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(temp);
+                    cutBitmap = Bitmap.createBitmap(cutWidth, cutHeight, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(cutBitmap);
 
                     Path path = new Path();
                     if (graphicPath.size() > 1) {
-                        path.moveTo((float) ((graphicPath.pathX.get(0) - mRect.left)), (float) ((graphicPath.pathY.get(0) - mRect.top)));
+                        path.moveTo((float) ((graphicPath.pathX.get(0) - mRect.left)),
+                                (float) ((graphicPath.pathY.get(0) - mRect.top)));
                         for (int i = 1; i < graphicPath.size(); i++) {
-                            path.lineTo((float) ((graphicPath.pathX.get(i) - mRect.left)), (float) ((graphicPath.pathY.get(i) - mRect.top)));
+                            path.lineTo((float) ((graphicPath.pathX.get(i) - mRect.left)),
+                                    (float) ((graphicPath.pathY.get(i) - mRect.top)));
                         }
                     } else {
                         return;
@@ -281,16 +298,21 @@ public class ScreenCapture {
                     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 
                     // 关键代码，Xfermode和SRC_IN
-                    canvas.drawBitmap(cutBitmap, 0, 0, paint);
-                    Logger.d(TAG, "bitmap cuted third");
-                    captureDialog.setSecondBitmap(temp);
-                    FileUtil.saveBitmap(context, temp);
+                    canvas.drawBitmap(tempBitmap, 0, 0, paint);
+                    Logger.d(TAG, "bitmap cuted finish.");
+//                    FileUtil.saveBitmap(context, cutBitmap);
                 }
             }
+            if(cutBitmap != null){
+                captureDialog.setFirstBitmap(cutBitmap);
+                captureDialog.show(context);
+            } else {
+                Toast.makeText(context, "无法正确获取截图，请稍后重试", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "无法正确获取截图，请稍后重试", Toast.LENGTH_SHORT).show();
         }
-//        ((Activity)context).finish();
-        captureDialog.show();
-//        bitmap.recycle();//自由选择是否进行回收
+        originalBitmap.recycle();
     }
 
     private static final class SingleHolder {
